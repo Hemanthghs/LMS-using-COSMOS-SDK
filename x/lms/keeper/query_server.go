@@ -21,7 +21,6 @@ func NewQueryServerImpl(k Keeper) types.QueryServer {
 
 func (k queryServer) GetStudents(context.Context, *types.GetStudentsRequest) (*types.GetStudentsResponse, error) {
 	return &types.GetStudentsResponse{}, nil
-
 }
 
 func (k queryServer) GetLeaveRequests(context.Context, *types.GetLeaveRequestsRequest) (*types.GetLeaveRequestsResponse, error) {
