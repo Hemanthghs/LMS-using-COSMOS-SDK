@@ -6,15 +6,15 @@ import (
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
 )
 
-var _ types.MsgServer = queryServer{}
+var _ types.QueryServer = queryServer{}
 
 type queryServer struct {
 	Keeper
-	types.UnimplementedMsgServer
+	types.UnimplementedQueryServer
 }
 
-func NewQueryServerImpl(k Keeper) types.MsgServer {
-	return &msgServer{
+func NewQueryServerImpl(k Keeper) types.QueryServer {
+	return &queryServer{
 		Keeper: k,
 	}
 }
