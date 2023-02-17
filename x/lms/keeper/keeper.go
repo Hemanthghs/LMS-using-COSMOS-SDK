@@ -11,7 +11,3 @@ type Keeper struct {
 
 	cdc codec.Codec
 }
-
-// func (k BaseKeeper) SetStudent(ctx sdk.Context, name string, id string, email string, passwd string) {
-// 	store :=
-// }
