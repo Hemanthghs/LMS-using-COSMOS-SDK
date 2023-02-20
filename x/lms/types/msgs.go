@@ -26,6 +26,11 @@ func NewRegisterAdminReq(accAddr sdk.AccAddress) *RegisterAdminRequest {
 	}
 }
 
+func (msg RegisterAdminRequest) GetSignBytes() []byte {
+	b := ModuleCdc.MustMarshalJSON(&msg)
+	return sdk.MustSortJSON(b)
+}
+
 func (msg RegisterAdminRequest) GetSigners() []sdk.AccAddress {
 	valAddr, _ := sdk.AccAddressFromBech32(msg.Address) //ValAddressFromBech32(msg.AdminAddress)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
@@ -52,6 +57,11 @@ func NewAddStudentReq(accountAddr sdk.AccAddress) *AddStudentRequest {
 	}
 }
 
+func (msg AddStudentRequest) GetSignBytes() []byte {
+	b := ModuleCdc.MustMarshalJSON(&msg)
+	return sdk.MustSortJSON(b)
+}
+
 func (msg AddStudentRequest) Route() string {
 	return RouterKey
 }
@@ -64,13 +74,6 @@ func (msg AddStudentRequest) GetSigners() []sdk.AccAddress {
 	valAddr, _ := sdk.AccAddressFromBech32(msg.Admin)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }
-
-// func (msg AddStudentRequest) ValidateBasic() error {
-// 	if _, err := sdk.AccAddressFromBech32(msg.Admin); err != nil {
-// 		return sdkerrors.ErrInvalidAddress.Wrapf("account input address: %s", err)
-// 	}
-// 	return nil
-// }
 
 func (msg AddStudentRequest) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Admin); err != nil {
@@ -93,6 +96,11 @@ func (msg ApplyLeaveRequest) Route() string {
 
 func (msg ApplyLeaveRequest) Type() string {
 	return TypeApplyLeave
+}
+
+func (msg ApplyLeaveRequest) GetSignBytes() []byte {
+	b := ModuleCdc.MustMarshalJSON(&msg)
+	return sdk.MustSortJSON(b)
 }
 
 func (msg ApplyLeaveRequest) GetSigners() []sdk.AccAddress {
@@ -121,6 +129,11 @@ func (msg AcceptLeaveRequest) Route() string {
 
 func (msg AcceptLeaveRequest) Type() string {
 	return TypeAcceptLeave
+}
+
+func (msg AcceptLeaveRequest) GetSignBytes() []byte {
+	b := ModuleCdc.MustMarshalJSON(&msg)
+	return sdk.MustSortJSON(b)
 }
 
 func (msg AcceptLeaveRequest) GetSigners() []sdk.AccAddress {
