@@ -1,5 +1,5 @@
 syntax = "proto3";
 
-package lms.v1beta1;
+package cosmos.lms.v1beta1;
 
 option go_package = "x/lms/types";

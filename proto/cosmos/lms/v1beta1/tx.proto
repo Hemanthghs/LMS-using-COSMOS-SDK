@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-package lms.v1beta1;
+package cosmos.lms.v1beta1;
 
 option go_package = "x/lms/types";
 
 import "google/protobuf/timestamp.proto";
+
+import "gogoproto/gogo.proto";
 
 service Msg {
     // RegisterAdmin adds a new admin
@@ -46,9 +48,9 @@ message ApplyLeaveRequest {
     
     string reason = 2;
     
-    google.protobuf.Timestamp from = 3;
+    google.protobuf.Timestamp from = 3 [(gogoproto.stdtime)=true];
     
-    google.protobuf.Timestamp to = 4;
+    google.protobuf.Timestamp to = 4 [(gogoproto.stdtime)=true];
 }
 
 message ApplyLeaveResponse {

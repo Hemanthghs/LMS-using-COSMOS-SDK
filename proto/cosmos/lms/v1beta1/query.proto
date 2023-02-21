@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package lms.v1beta1;
+package cosmos.lms.v1beta1;
 
 option go_package = "x/lms/types";
 
-import "proto/cosmos/lms/v1beta1/tx.proto";
+import "cosmos/lms/v1beta1/tx.proto";
 
 service Query {
     rpc GetStudents(GetStudentsRequest) returns (GetStudentsResponse){};
