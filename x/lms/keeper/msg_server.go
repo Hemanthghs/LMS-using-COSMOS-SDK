@@ -20,20 +20,26 @@ func NewMsgServerImpl(k Keeper) types.MsgServer {
 	}
 }
 
-func (k msgServer) AddStudent(ctx context.Context, students *types.AddStudentRequest) (*types.AddStudentResponse, error) {
+func (k msgServer) AddStudent(ctx context.Context, req *types.AddStudentRequest) (*types.AddStudentResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	k.Keeper.AddStudent(sdkCtx, students)
+	k.Keeper.AddStudent(sdkCtx, req)
 	return &types.AddStudentResponse{}, nil
 }
 
-func (k msgServer) ApplyLeave(context.Context, *types.ApplyLeaveRequest) (*types.ApplyLeaveResponse, error) {
+func (k msgServer) ApplyLeave(ctx context.Context, req *types.ApplyLeaveRequest) (*types.ApplyLeaveResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	k.Keeper.ApplyLeave(sdkCtx, req)
 	return &types.ApplyLeaveResponse{}, nil
 }
 
-func (k msgServer) RegisterAdmin(context.Context, *types.RegisterAdminRequest) (*types.RegisterAdminResponse, error) {
+func (k msgServer) RegisterAdmin(ctx context.Context, req *types.RegisterAdminRequest) (*types.RegisterAdminResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	k.Keeper.RegisterAdmin(sdkCtx, req)
 	return &types.RegisterAdminResponse{}, nil
 }
 
-func (k msgServer) AcceptLeave(context.Context, *types.AcceptLeaveRequest) (*types.AcceptLeaveResponse, error) {
+func (k msgServer) AcceptLeave(ctx context.Context, req *types.AcceptLeaveRequest) (*types.AcceptLeaveResponse, error) {
+	// sdkCtx := sdk.UnwrapSDKContext(ctx)
+	// k.Keeper.AcceptLeave(sdkCtx, req)
 	return &types.AcceptLeaveResponse{}, nil
 }

@@ -58,6 +58,7 @@ func (k Keeper) GetStudent(ctx sdk.Context, id string) {
 }
 
 func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest) string {
+	fmt.Println(applyLeave)
 	store := ctx.KVStore(k.storeKey)
 	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
 	handleError(err)
