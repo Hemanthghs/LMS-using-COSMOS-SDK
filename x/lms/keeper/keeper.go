@@ -11,3 +11,10 @@ type Keeper struct {
 
 	cdc codec.Codec
 }
+
+func NewKeeper(key storetypes.StoreKey, cdc codec.Codec) Keeper {
+	return Keeper{
+		cdc:      cdc,
+		storeKey: key,
+	}
+}
