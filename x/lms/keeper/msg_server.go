@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 var _ types.MsgServer = msgServer{}
@@ -19,7 +20,9 @@ func NewMsgServerImpl(k Keeper) types.MsgServer {
 	}
 }
 
-func (k msgServer) AddStudent(context.Context, *types.AddStudentRequest) (*types.AddStudentResponse, error) {
+func (k msgServer) AddStudent(ctx context.Context, students *types.AddStudentRequest) (*types.AddStudentResponse, error) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	k.Keeper.AddStudent(sdkCtx, students)
 	return &types.AddStudentResponse{}, nil
 }
 

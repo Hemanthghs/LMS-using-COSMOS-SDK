@@ -1,8 +1,10 @@
 package keeper_test
 
 import (
+	"fmt"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/keeper"
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
@@ -66,6 +68,8 @@ func (suite *TestSuite) Require() *require.Assertions {
 	return suite.require
 }
 
+///////////////////// Register Admin Tests ////////////////////////
+
 type registerAdminTest struct {
 	arg1     types.RegisterAdminRequest
 	expected string
@@ -97,6 +101,52 @@ func (s *TestSuite) TestRegisterAdmin() {
 		}
 		s.stdntKeeper.GetAdmin(s.ctx, sdk.AccAddress("sakjhfdd").String())
 	}
+
+}
+
+///////////////////// Add Student Tests ////////////////////////
+
+func (s *TestSuite) TestAddStudent() {
+	students := []*types.Student{
+		{
+			Address: sdk.AccAddress("lms1").String(),
+			Name:    "hemanth1",
+			Id:      "1",
+		},
+		{
+			Address: sdk.AccAddress("lms2").String(),
+			Name:    "hemanth2",
+			Id:      "2",
+		},
+		{
+			Address: sdk.AccAddress("lms3").String(),
+			Name:    "hemanth3",
+			Id:      "3",
+		},
+	}
+	req := types.AddStudentRequest{
+		Admin:    "Hemanthsai",
+		Students: students,
+	}
+	res := s.stdntKeeper.AddStudent(s.ctx, &req)
+	fmt.Println(res)
+}
+
+//////////////////// Apply Leave Tests ////////////////////////
+
+func (s *TestSuite) TestApplyLeave() {
+	// require := s.Require()
+	dateString := "2023-02-22"
+	fromDate, _ := time.Parse(dateString, "2023-02-22")
+	toDate, _ := time.Parse(dateString, "2023-02-26")
+	req := types.ApplyLeaveRequest{
+		Address: sdk.AccAddress("lms1").String(),
+		Reason:  "I am feeling sick",
+		From:    &fromDate,
+		To:      &toDate,
+	}
+	res := s.stdntKeeper.ApplyLeave(s.ctx, &req)
+	fmt.Println(res)
 
 }
 
