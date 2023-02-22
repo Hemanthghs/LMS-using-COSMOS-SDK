@@ -81,26 +81,21 @@ var registerAdminTests = []registerAdminTest{
 	},
 	{
 		arg1: types.RegisterAdminRequest{
-			Name:    "Hemanthsai",
-			Address: sdk.AccAddress("abcdef").String(),
+			Name:    "Sai",
+			Address: sdk.AccAddress("sakjhfdd").String(),
 		},
 		expected: "Admin Registered Successfully",
 	},
 }
 
 func (s *TestSuite) TestRegisterAdmin() {
-	// addr := sdk.AccAddress("abcdef")
-	// req := types.RegisterAdminRequest{
-	// 	Name:    "",
-	// 	Address: addr.String(),
-	// }
-	// res := s.stdntKeeper.RegisterAdmin(s.ctx, &req)
-	// fmt.Println(res)
 	require := s.Require()
 	for _, test := range registerAdminTests {
+
 		if output := s.stdntKeeper.RegisterAdmin(s.ctx, &test.arg1); output != test.expected {
 			require.Equal(test.expected, output)
 		}
+		s.stdntKeeper.GetAdmin(s.ctx, sdk.AccAddress("sakjhfdd").String())
 	}
 
 }
