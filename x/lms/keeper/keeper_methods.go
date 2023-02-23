@@ -88,3 +88,7 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	store.Set(types.AcceptLeaveStoreKey(acceptLeave.Admin, acceptLeave.LeaveId), marshalAcceptLeave)
 	return "Leave Status Updated"
 }
+
+func (k Keeper) CheckLeaveStatus(ctx sdk.Context, studentAddress string) {
+
+}
