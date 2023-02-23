@@ -185,6 +185,17 @@ func (s *TestSuite) TestApplyLeave() {
 
 }
 
+// ///////////////// Accept Leave Tests ////////////////////////
+func (s *TestSuite) TestAcceptLeave() {
+	req := types.AcceptLeaveRequest{
+		Admin:   sdk.AccAddress("abcdef").String(),
+		LeaveId: "1",
+		Status:  1,
+	}
+	res := s.stdntKeeper.AcceptLeave(s.ctx, &req)
+	fmt.Println(res)
+}
+
 func TestTestSuite(t *testing.T) {
 	suite.Run(t, new(TestSuite))
 }
