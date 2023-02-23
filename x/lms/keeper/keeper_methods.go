@@ -58,26 +58,30 @@ func (k Keeper) GetStudent(ctx sdk.Context, id string) {
 	fmt.Println(v)
 }
 
-func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest) string {
-	store := ctx.KVStore(k.storeKey)
-	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
-	handleError(err)
-	counter := store.Get([]byte("count"))
-	if counter == nil {
-		store.Set([]byte("count"), []byte("1"))
-	} else {
-		c, err := strconv.Atoi(string(counter))
-		handleError(err)
-		c = c + 1
-		store.Set([]byte("count"), []byte(fmt.Sprint(c)))
+func (k Keeper) ApplyLeave(ctx sdk.Context, leave *types.ApplyLeaveRequest) string {
+	if _, err := sdk.AccAddressFromBech32(leave.Address); err != nil {
+		log.Fatal(err)
+		return fmt.Sprint(err)
 	}
-	count := store.Get([]byte("count"))
-	store.Set(types.LeaveStoreKey(string(count)), marshalApplyLeave)
-	data := store.Get(types.LeaveStoreKey(string(count)))
-	var a types.ApplyLeaveRequest
-	k.cdc.Unmarshal(data, &a)
-	fmt.Println(a)
+	store := ctx.KVStore(k.storeKey)
 
+	if store.Get(types.StudentStoreKey(leave.Address)) == nil {
+		return "Student does not exist" //
+	}
+
+	val, err := k.cdc.Marshal(leave)
+	if err != nil {
+		return fmt.Sprint(err)
+	}
+	leaveid := store.Get(types.LeaveCounterStoreKey(leave.Address))
+	leaveId, _ := strconv.Atoi(string(leaveid))
+
+	if leaveid == nil {
+		leaveId = 0
+	}
+	leaveId++
+	store.Set(types.LeaveCounterStoreKey(leave.Address), []byte(strconv.Itoa(leaveId)))
+	store.Set(types.LeaveStoreKey(leave.Address, leaveId), val)
 	return "Leave Applied Successfully"
 }
 
