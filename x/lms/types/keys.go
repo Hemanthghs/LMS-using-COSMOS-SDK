@@ -8,21 +8,28 @@ const (
 )
 
 var (
-	StudentId = []byte{0x01}
-	LeaveId   = []byte{0x02}
-	AdminId   = []byte{0x03}
+	StudentKey = []byte{0x01}
+	LeaveKey   = []byte{0x02}
+	AdminKey   = []byte{0x03}
 )
 
 func AdminStoreKey(admin string) []byte {
-	key := make([]byte, len(AdminId)+len(admin))
-	copy(key, AdminId)
-	copy(key[len(AdminId):], []byte(admin))
+	key := make([]byte, len(AdminKey)+len(admin))
+	copy(key, AdminKey)
+	copy(key[len(AdminKey):], []byte(admin))
 	return key
 }
 
 func StudentStoreKey(student string) []byte {
-	key := make([]byte, len(StudentId)+len(student))
-	copy(key, StudentId)
-	copy(key[len(StudentId):], []byte(student))
+	key := make([]byte, len(StudentKey)+len(student))
+	copy(key, StudentKey)
+	copy(key[len(StudentKey):], []byte(student))
+	return key
+}
+
+func LeaveStoreKey(leaveCounter string) []byte {
+	key := make([]byte, len(LeaveKey)+len(leaveCounter))
+	copy(key, LeaveKey)
+	copy(key[len(LeaveKey):], []byte(leaveCounter))
 	return key
 }

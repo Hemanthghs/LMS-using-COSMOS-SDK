@@ -70,29 +70,29 @@ func (suite *TestSuite) Require() *require.Assertions {
 
 ///////////////////// Register Admin Tests ////////////////////////
 
-type registerAdminTest struct {
-	arg1     types.RegisterAdminRequest
-	expected string
-}
-
-var registerAdminTests = []registerAdminTest{
-	{
-		arg1: types.RegisterAdminRequest{
-			Name:    "Hemanthsai",
-			Address: sdk.AccAddress("abcdef").String(),
-		},
-		expected: "Admin Registered Successfully",
-	},
-	{
-		arg1: types.RegisterAdminRequest{
-			Name:    "Sai",
-			Address: sdk.AccAddress("sakjhfdd").String(),
-		},
-		expected: "Admin Registered Successfully",
-	},
-}
-
 func (s *TestSuite) TestRegisterAdmin() {
+	type registerAdminTest struct {
+		arg1     types.RegisterAdminRequest
+		expected string
+	}
+
+	var registerAdminTests = []registerAdminTest{
+		{
+			arg1: types.RegisterAdminRequest{
+				Name:    "Hemanthsai",
+				Address: sdk.AccAddress("abcdef").String(),
+			},
+			expected: "Admin Registered Successfully",
+		},
+		{
+			arg1: types.RegisterAdminRequest{
+				Name:    "Sai",
+				Address: sdk.AccAddress("sakjhfdd").String(),
+			},
+			expected: "Admin Registered Successfully",
+		},
+	}
+
 	require := s.Require()
 	for _, test := range registerAdminTests {
 
@@ -135,18 +135,39 @@ func (s *TestSuite) TestAddStudent() {
 //////////////////// Apply Leave Tests ////////////////////////
 
 func (s *TestSuite) TestApplyLeave() {
-	// require := s.Require()
-	dateString := "2023-02-22"
-	fromDate, _ := time.Parse(dateString, "2023-02-22")
-	toDate, _ := time.Parse(dateString, "2023-02-26")
-	req := types.ApplyLeaveRequest{
-		Address: sdk.AccAddress("lms1").String(),
-		Reason:  "I am feeling sick",
-		From:    &fromDate,
-		To:      &toDate,
+	type applyLeaveTest struct {
+		arg1     types.ApplyLeaveRequest
+		expected string
 	}
-	res := s.stdntKeeper.ApplyLeave(s.ctx, &req)
-	fmt.Println(res)
+	dateString := "2006-Jan-02"
+	fromDate, _ := time.Parse(dateString, "2023-Feb-22")
+	toDate, _ := time.Parse(dateString, "2023-Feb-26")
+	var applyLeaveTests = []applyLeaveTest{
+		{
+			arg1: types.ApplyLeaveRequest{
+				Address: sdk.AccAddress("lms1").String(),
+				Reason:  "I am feeling sick",
+				From:    &fromDate,
+				To:      &toDate,
+			},
+			expected: "Leave Applied Successfully",
+		},
+		{
+			arg1: types.ApplyLeaveRequest{
+				Address: sdk.AccAddress("lms2").String(),
+				Reason:  "I have to attend a wedding",
+				From:    &fromDate,
+				To:      &toDate,
+			},
+			expected: "Leave Applied Successfully",
+		},
+	}
+	require := s.Require()
+	for _, test := range applyLeaveTests {
+		if output := s.stdntKeeper.ApplyLeave(s.ctx, &test.arg1); output != test.expected {
+			require.Equal(test.expected, output)
+		}
+	}
 
 }
 

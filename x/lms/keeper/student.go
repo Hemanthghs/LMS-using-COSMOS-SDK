@@ -5,6 +5,7 @@ import (
 
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -58,10 +59,23 @@ func (k Keeper) GetStudent(ctx sdk.Context, id string) {
 }
 
 func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest) string {
-	fmt.Println(applyLeave)
 	store := ctx.KVStore(k.storeKey)
 	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
 	handleError(err)
-	store.Set(types.StudentStoreKey(applyLeave.Address), marshalApplyLeave)
+	counter := store.Get([]byte("count"))
+	if counter == nil {
+		store.Set([]byte("count"), []byte("1"))
+	} else {
+		c, err := strconv.Atoi(string(counter))
+		handleError(err)
+		c = c + 1
+		store.Set([]byte("count"), []byte(fmt.Sprint(c)))
+	}
+	count := store.Get([]byte("count"))
+	store.Set(types.LeaveStoreKey(string(count)), marshalApplyLeave)
+	data := store.Get(types.LeaveStoreKey(string(count)))
+	var a types.ApplyLeaveRequest
+	k.cdc.Unmarshal(data, &a)
+	fmt.Println(a)
 	return "Leave Applied Successfully"
 }
