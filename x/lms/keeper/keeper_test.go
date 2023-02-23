@@ -91,6 +91,20 @@ func (s *TestSuite) TestRegisterAdmin() {
 			},
 			expected: "Admin Registered Successfully",
 		},
+		{
+			arg1: types.RegisterAdminRequest{
+				Name:    "Vishal",
+				Address: "",
+			},
+			expected: "Address cannot be empty",
+		},
+		{
+			arg1: types.RegisterAdminRequest{
+				Name:    "",
+				Address: sdk.AccAddress("kgjdk").String(),
+			},
+			expected: "Name cannot be empty",
+		},
 	}
 
 	require := s.Require()
@@ -99,7 +113,7 @@ func (s *TestSuite) TestRegisterAdmin() {
 		if output := s.stdntKeeper.RegisterAdmin(s.ctx, &test.arg1); output != test.expected {
 			require.Equal(test.expected, output)
 		}
-		s.stdntKeeper.GetAdmin(s.ctx, sdk.AccAddress("sakjhfdd").String())
+		// s.stdntKeeper.GetAdmin(s.ctx, sdk.AccAddress("sakjhfdd").String())
 	}
 
 }

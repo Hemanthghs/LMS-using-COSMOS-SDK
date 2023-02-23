@@ -77,5 +77,15 @@ func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest)
 	var a types.ApplyLeaveRequest
 	k.cdc.Unmarshal(data, &a)
 	fmt.Println(a)
+
 	return "Leave Applied Successfully"
+}
+
+func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveRequest) string {
+	store := ctx.KVStore(k.storeKey)
+	marshalAcceptLeave, err := k.cdc.Marshal(acceptLeave)
+	handleError(err)
+	fmt.Println("The Key ========== ", types.AcceptLeaveStoreKey(acceptLeave.Admin, acceptLeave.LeaveId))
+	store.Set(types.AcceptLeaveStoreKey(acceptLeave.Admin, acceptLeave.LeaveId), marshalAcceptLeave)
+	return "Leave Status Updated"
 }

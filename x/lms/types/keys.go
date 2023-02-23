@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 const (
 	ModuleName   = "leave"
 	StoreKey     = ModuleName
@@ -8,9 +10,10 @@ const (
 )
 
 var (
-	StudentKey = []byte{0x01}
-	LeaveKey   = []byte{0x02}
-	AdminKey   = []byte{0x03}
+	StudentKey     = []byte{0x01}
+	LeaveKey       = []byte{0x02}
+	AdminKey       = []byte{0x03}
+	AcceptLeaveKey = []byte{0x04}
 )
 
 func AdminStoreKey(admin string) []byte {
@@ -31,5 +34,13 @@ func LeaveStoreKey(leaveCounter string) []byte {
 	key := make([]byte, len(LeaveKey)+len(leaveCounter))
 	copy(key, LeaveKey)
 	copy(key[len(LeaveKey):], []byte(leaveCounter))
+	return key
+}
+
+func AcceptLeaveStoreKey(admin string, leaveId uint64) []byte {
+	key := make([]byte, len(AcceptLeaveKey)+len(admin)+len(fmt.Sprint(leaveId)))
+	copy(key, AcceptLeaveKey)
+	copy(key[len(AcceptLeaveKey):], []byte(admin))
+	copy(key[len(key):], []byte(fmt.Sprint(leaveId)))
 	return key
 }
