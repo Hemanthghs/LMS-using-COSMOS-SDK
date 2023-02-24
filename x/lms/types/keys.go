@@ -1,7 +1,5 @@
 package types
 
-import "strconv"
-
 const (
 	ModuleName   = "leave"
 	StoreKey     = ModuleName
@@ -10,12 +8,10 @@ const (
 )
 
 var (
-	StudentKey      = []byte{0x01}
-	LeaveKey        = []byte{0x02}
-	AdminKey        = []byte{0x03}
-	AcceptLeaveKey  = []byte{0x04}
-	LeaveCounterKey = []byte{0x05}
-	LeaveStatusKey  = []byte{0x06}
+	StudentKey     = []byte{0x01}
+	LeaveKey       = []byte{0x02}
+	AdminKey       = []byte{0x03}
+	AcceptLeaveKey = []byte{0x04}
 )
 
 func AdminStoreKey(admin string) []byte {
@@ -32,28 +28,10 @@ func StudentStoreKey(student string) []byte {
 	return key
 }
 
-func LeaveStoreKey(studentId string, leaveId int) []byte {
-	leaveID := strconv.Itoa(leaveId)
-	key := make([]byte, len(LeaveKey)+len(studentId)+len(leaveID))
+func LeaveStoreKey(leaveCounter string) []byte {
+	key := make([]byte, len(LeaveKey)+len(leaveCounter))
 	copy(key, LeaveKey)
-	copy(key[len(LeaveKey):], []byte(studentId))
-	copy(key[len(LeaveKey)+len(studentId):], []byte(leaveID))
-	return key
-}
-
-func LeaveCounterStoreKey(studentId string) []byte {
-	key := make([]byte, len(LeaveCounterKey)+len(studentId))
-	copy(key, LeaveCounterKey)
-	copy(key[len(LeaveCounterKey):], studentId)
-	return key
-}
-
-func LeaveStatusStoreKey(studentAddress string, leaveId int) []byte {
-	leaveID := strconv.Itoa(leaveId)
-	key := make([]byte, len(LeaveStatusKey)+len(studentAddress)+len(leaveID))
-	copy(key, LeaveStatusKey)
-	copy(key[len(LeaveStatusKey):], []byte(studentAddress))
-	copy(key[len(LeaveStatusKey)+len(studentAddress):], []byte(leaveID))
+	copy(key[len(LeaveKey):], []byte(leaveCounter))
 	return key
 }
 
