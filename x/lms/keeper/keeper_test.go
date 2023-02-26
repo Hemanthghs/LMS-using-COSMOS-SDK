@@ -243,6 +243,11 @@ func (s *TestSuite) Test_AddStudent_ApplyLeave_AcceptLeave_GetLeaveStatus() {
 
 }
 
+func (s *TestSuite) TestGetStudents() {
+	s.TestAddStudent()
+	s.stdntKeeper.GetStudents(s.ctx, &types.GetStudentsRequest{})
+}
+
 func TestTestSuite(t *testing.T) {
 	suite.Run(t, new(TestSuite))
 }

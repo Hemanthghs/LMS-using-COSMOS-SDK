@@ -95,3 +95,13 @@ func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveSt
 	status := leave.Status.String()
 	return status
 }
+
+func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) {
+	store := ctx.KVStore(k.storeKey)
+	var t types.Student
+	tk := store.Iterator(types.StudentKey, nil)
+	for ; tk.Valid(); tk.Next() {
+		k.cdc.Unmarshal(tk.Value(), &t)
+		fmt.Println(t)
+	}
+}
