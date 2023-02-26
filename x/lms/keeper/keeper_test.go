@@ -142,8 +142,7 @@ func (s *TestSuite) TestAddStudent() {
 		Admin:    "Hemanthsai",
 		Students: students,
 	}
-	res := s.stdntKeeper.AddStudent(s.ctx, &req)
-	fmt.Println(res)
+	s.stdntKeeper.AddStudent(s.ctx, &req)
 }
 
 //////////////////// Apply Leave Tests ////////////////////////
@@ -190,10 +189,11 @@ func (s *TestSuite) TestAcceptLeave() {
 	req := types.AcceptLeaveRequest{
 		Admin:   sdk.AccAddress("abcdef").String(),
 		LeaveId: "1",
-		Status:  1,
+		Status:  types.LeaveStatus_STATUS_ACCEPTED,
 	}
 	res := s.stdntKeeper.AcceptLeave(s.ctx, &req)
 	fmt.Println(res)
+
 }
 
 func TestTestSuite(t *testing.T) {

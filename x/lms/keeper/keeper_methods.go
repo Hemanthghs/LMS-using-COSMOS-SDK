@@ -1,8 +1,6 @@
 package keeper
 
 import (
-	//"cosmossdk.io/store/prefix"
-
 	"fmt"
 	"log"
 	"strconv"
@@ -75,6 +73,7 @@ func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest)
 	counter = store.Get(addr)
 	handleError(err)
 	store.Set(types.LeaveStoreKey(applyLeave.Address, string(counter)), marshalApplyLeave)
+	// id := types.LeaveStoreKey(applyLeave.Address, string(counter))
 	return "Leave Applied Successfully"
 }
 
@@ -86,11 +85,12 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	return "Leave Status Updated"
 }
 
-// func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) string {
-// 	store := ctx.KVStore(k.storeKey)
-// 	res := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID))
-// 	var status types.GetLeaveStatusRequest
-// 	k.cdc.Unmarshal(res, &status)
-// 	fmt.Println(status)
-// 	return ""
-// }
+func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) string {
+	store := ctx.KVStore(k.storeKey)
+	res := store.Get(types.AcceptLeaveStoreKey(getLeaveStatus.LeaveID))
+	var leave types.AcceptLeaveRequest
+	k.cdc.Unmarshal(res, &leave)
+	fmt.Println(leave)
+	status := leave.Status.String()
+	return status
+}
