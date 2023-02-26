@@ -62,22 +62,19 @@ func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest)
 	store := ctx.KVStore(k.storeKey)
 	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
 	handleError(err)
-	counter := store.Get([]byte("count"))
+	addr := types.StudentLeavesCounterKey(sdk.AccAddress(string(applyLeave.Address)).String())
+	counter := store.Get(addr)
 	if counter == nil {
-		store.Set([]byte("count"), []byte("1"))
+		store.Set(addr, []byte("1"))
 	} else {
 		c, err := strconv.Atoi(string(counter))
 		handleError(err)
 		c = c + 1
-		store.Set([]byte("count"), []byte(fmt.Sprint(c)))
+		store.Set(addr, []byte(fmt.Sprint(c)))
 	}
-	count := store.Get([]byte("count"))
-	store.Set(types.LeaveStoreKey(string(count)), marshalApplyLeave)
-	data := store.Get(types.LeaveStoreKey(string(count)))
-	var a types.ApplyLeaveRequest
-	k.cdc.Unmarshal(data, &a)
-	fmt.Println(a)
-
+	counter = store.Get(addr)
+	handleError(err)
+	store.Set(types.LeaveStoreKey(applyLeave.Address, string(counter)), marshalApplyLeave)
 	return "Leave Applied Successfully"
 }
 
@@ -85,15 +82,15 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	store := ctx.KVStore(k.storeKey)
 	marshalAcceptLeave, err := k.cdc.Marshal(acceptLeave)
 	handleError(err)
-	store.Set(types.AcceptLeaveStoreKey(acceptLeave.Admin, acceptLeave.LeaveId), marshalAcceptLeave)
+	store.Set(types.AcceptLeaveStoreKey(acceptLeave.LeaveId), marshalAcceptLeave)
 	return "Leave Status Updated"
 }
 
-func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) string {
-	store := ctx.KVStore(k.storeKey)
-	res := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID))
-	var status types.GetLeaveStatusRequest
-	k.cdc.Unmarshal(res, &status)
-	fmt.Println(status)
-	return ""
-}
+// func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) string {
+// 	store := ctx.KVStore(k.storeKey)
+// 	res := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID))
+// 	var status types.GetLeaveStatusRequest
+// 	k.cdc.Unmarshal(res, &status)
+// 	fmt.Println(status)
+// 	return ""
+// }

@@ -12,6 +12,7 @@ var (
 	LeaveKey       = []byte{0x02}
 	AdminKey       = []byte{0x03}
 	AcceptLeaveKey = []byte{0x04}
+	CounterKey     = []byte{0x05}
 )
 
 func AdminStoreKey(admin string) []byte {
@@ -28,17 +29,32 @@ func StudentStoreKey(student string) []byte {
 	return key
 }
 
-func LeaveStoreKey(leaveCounter string) []byte {
-	key := make([]byte, len(LeaveKey)+len(leaveCounter))
+func LeaveStoreKey(sid string, studentLeavesCount string) []byte {
+	key := make([]byte, len(LeaveKey)+len(sid)+len(studentLeavesCount))
 	copy(key, LeaveKey)
-	copy(key[len(LeaveKey):], []byte(leaveCounter))
+	copy(key[len(LeaveKey):], []byte(sid))
+	copy(key[len(LeaveKey)+len(sid):], []byte(studentLeavesCount))
 	return key
 }
 
-func AcceptLeaveStoreKey(admin string, leaveId string) []byte {
-	key := make([]byte, len(AcceptLeaveKey)+len(admin)+len(leaveId))
-	copy(key, AcceptLeaveKey)
-	copy(key[len(AcceptLeaveKey):], []byte(admin))
-	copy(key[len(key):], []byte(leaveId))
+func StudentLeavesCounterKey(sid string) []byte {
+	key := make([]byte, len(CounterKey)+len(sid))
+	copy(key, CounterKey)
+	copy(key[len(CounterKey):], []byte(sid))
+	return key
+}
+
+// func AcceptLeaveStoreKey(admin string, leaveId string) []byte {
+// 	key := make([]byte, len(AcceptLeaveKey)+len(admin)+len(leaveId))
+// 	copy(key, AcceptLeaveKey)
+// 	copy(key[len(AcceptLeaveKey):], []byte(admin))
+// 	copy(key[len(key):], []byte(leaveId))
+// 	return key
+// }
+
+func AcceptLeaveStoreKey(leaveid string) []byte {
+	key := make([]byte, len(AcceptLeaveKey)+len(leaveid))
+	copy(key, leaveid)
+	copy(key[len(AcceptLeaveKey):], []byte(leaveid))
 	return key
 }
