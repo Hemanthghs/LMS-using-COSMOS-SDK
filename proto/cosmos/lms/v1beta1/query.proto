@@ -10,6 +10,7 @@ service Query {
     rpc GetStudents(GetStudentsRequest) returns (GetStudentsResponse){};
     rpc GetLeaveRequests(GetLeaveRequestsRequest) returns (GetLeaveRequestsResponse){};
     rpc GetLeaveApprovedRequests(GetLeaveApprovedRequestsRequest) returns (GetLeaveApprovedRequestsResponse){};
+    rpc GetLeaveStatus(GetLeaveStatusRequest) returns (GetLeaveStatusResponse){};
 }
 
 message GetStudentsRequest {
@@ -36,3 +37,10 @@ message GetLeaveApprovedRequestsResponse {
     repeated ApplyLeaveRequest leaverequests = 1;
 }
 
+message GetLeaveStatusResponse {
+    ApplyLeaveRequest leaverequest = 1;
+}
+
+message GetLeaveStatusRequest {
+    string leaveID = 1;
+}

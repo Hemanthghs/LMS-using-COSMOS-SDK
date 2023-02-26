@@ -30,3 +30,7 @@ func (k queryServer) GetLeaveRequests(context.Context, *types.GetLeaveRequestsRe
 func (k queryServer) GetLeaveApprovedRequests(context.Context, *types.GetLeaveApprovedRequestsRequest) (*types.GetLeaveApprovedRequestsResponse, error) {
 	return &types.GetLeaveApprovedRequestsResponse{}, nil
 }
+
+func (k queryServer) GetLeaveStatus(context.Context, *types.GetLeaveStatusRequest) (*types.GetLeaveStatusResponse, error) {
+	return &types.GetLeaveStatusResponse{}, nil
+}
