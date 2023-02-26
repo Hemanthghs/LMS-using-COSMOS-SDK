@@ -196,6 +196,53 @@ func (s *TestSuite) TestAcceptLeave() {
 
 }
 
+func (s *TestSuite) Test_AddStudent_ApplyLeave_AcceptLeave_GetLeaveStatus() {
+	// Add Student
+	students := []*types.Student{
+		{
+			Address: sdk.AccAddress("lms1").String(),
+			Name:    "hemanth1",
+			Id:      "1",
+		},
+	}
+	req1 := types.AddStudentRequest{
+		Admin:    "Hemanthsai",
+		Students: students,
+	}
+	res1 := s.stdntKeeper.AddStudent(s.ctx, &req1)
+	fmt.Println("Res 1:", res1)
+
+	//Apply Leave
+	dateString := "2006-Jan-02"
+	fromDate, _ := time.Parse(dateString, "2023-Feb-22")
+	toDate, _ := time.Parse(dateString, "2023-Feb-26")
+	req2 := types.ApplyLeaveRequest{
+		Address: sdk.AccAddress("lms1").String(),
+		Reason:  "I am feeling sick",
+		From:    &fromDate,
+		To:      &toDate,
+	}
+	res2 := s.stdntKeeper.ApplyLeave(s.ctx, &req2)
+	fmt.Println("Res 2:", res2)
+
+	// Accept Leave
+	req3 := types.AcceptLeaveRequest{
+		Admin:   sdk.AccAddress("hemanth1").String(),
+		LeaveId: sdk.AccAddress("lms1").String(),
+		Status:  types.LeaveStatus_STATUS_REJECTED,
+	}
+	res3 := s.stdntKeeper.AcceptLeave(s.ctx, &req3)
+	fmt.Println("Res 3:", res3)
+
+	// Get Leave Status
+	req4 := types.GetLeaveStatusRequest{
+		LeaveID: sdk.AccAddress("lms1").String(),
+	}
+	res4 := s.stdntKeeper.GetLeaveStatus(s.ctx, &req4)
+	fmt.Println("Res 4:", res4)
+
+}
+
 func TestTestSuite(t *testing.T) {
 	suite.Run(t, new(TestSuite))
 }
