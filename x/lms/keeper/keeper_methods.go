@@ -15,19 +15,18 @@ func handleError(err error) {
 	}
 }
 
-func (k Keeper) RegisterAdmin(ctx sdk.Context, registerAdmin *types.RegisterAdminRequest) string {
+func (k Keeper) RegisterAdmin(ctx sdk.Context, registerAdmin *types.RegisterAdminRequest) error {
 
 	if registerAdmin.Name == "" {
-		return "Name cannot be empty"
+		return types.ErrAdminNameNil
 	} else if registerAdmin.Address == "" {
-		return "Address cannot be empty"
+		return types.ErrAdminAddressNil
 	} else {
 		store := ctx.KVStore(k.storeKey)
-		// k.cdc.MustMarshal(registerAdmin)
 		marshalRegisterAdmin, err := k.cdc.Marshal(registerAdmin)
 		handleError(err)
 		store.Set(types.AdminStoreKey(registerAdmin.Address), marshalRegisterAdmin)
-		return "Admin Registered Successfully"
+		return nil
 	}
 }
 

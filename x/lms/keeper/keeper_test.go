@@ -73,7 +73,7 @@ func (suite *TestSuite) Require() *require.Assertions {
 func (s *TestSuite) TestRegisterAdmin() {
 	type registerAdminTest struct {
 		arg1     types.RegisterAdminRequest
-		expected string
+		expected error
 	}
 
 	var registerAdminTests = []registerAdminTest{
@@ -82,28 +82,28 @@ func (s *TestSuite) TestRegisterAdmin() {
 				Name:    "Hemanthsai",
 				Address: sdk.AccAddress("abcdef").String(),
 			},
-			expected: "Admin Registered Successfully",
+			expected: nil,
 		},
 		{
 			arg1: types.RegisterAdminRequest{
 				Name:    "Sai",
 				Address: sdk.AccAddress("sakjhfdd").String(),
 			},
-			expected: "Admin Registered Successfully",
+			expected: nil,
 		},
 		{
 			arg1: types.RegisterAdminRequest{
 				Name:    "Vishal",
 				Address: "",
 			},
-			expected: "Address cannot be empty",
+			expected: types.ErrAdminAddressNil,
 		},
 		{
 			arg1: types.RegisterAdminRequest{
 				Name:    "",
 				Address: sdk.AccAddress("kgjdk").String(),
 			},
-			expected: "Name cannot be empty",
+			expected: types.ErrAdminNameNil,
 		},
 	}
 
