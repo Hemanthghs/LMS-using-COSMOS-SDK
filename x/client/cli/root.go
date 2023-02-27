@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package main
 
 import (
 	"fmt"
@@ -43,21 +43,6 @@ to quickly create a Cobra application.`,
 	},
 }
 
-var getStudents = &cobra.Command{
-	Use:   "getstudents",
-	Short: "To get the details of all students",
-	Long:  "To get the details of all students",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		clientctx, err := client.GetClientQueryContext(cmd)
-		handleError(err)
-		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetStudents(cmd.Context(), &types.GetStudentsRequest{})
-		handleError(err)
-		fmt.Println(res)
-	},
-}
-
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
@@ -77,5 +62,4 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.AddCommand(getStudents)
 }
