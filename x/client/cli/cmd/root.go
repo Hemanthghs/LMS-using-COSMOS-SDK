@@ -13,6 +13,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func handleError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "cli",
@@ -32,9 +38,22 @@ to quickly create a Cobra application.`,
 		}
 		queryClient := types.NewQueryClient(clientctx)
 		res, err := queryClient.GetStudents(cmd.Context(), &types.GetStudentsRequest{})
-		if err != nil {
-			log.Fatal(err)
-		}
+		handleError(err)
+		fmt.Println(res)
+	},
+}
+
+var getStudents = &cobra.Command{
+	Use:   "getstudents",
+	Short: "To get the details of all students",
+	Long:  "To get the details of all students",
+
+	Run: func(cmd *cobra.Command, args []string) {
+		clientctx, err := client.GetClientQueryContext(cmd)
+		handleError(err)
+		queryClient := types.NewQueryClient(clientctx)
+		res, err := queryClient.GetStudents(cmd.Context(), &types.GetStudentsRequest{})
+		handleError(err)
 		fmt.Println(res)
 	},
 }
@@ -58,4 +77,5 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.AddCommand(getStudents)
 }
