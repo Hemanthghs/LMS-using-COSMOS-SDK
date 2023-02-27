@@ -248,6 +248,16 @@ func (s *TestSuite) TestGetStudents() {
 	s.stdntKeeper.GetStudents(s.ctx, &types.GetStudentsRequest{})
 }
 
+func (s *TestSuite) TestGetLeaveRequests() {
+	s.TestApplyLeave()
+	s.stdntKeeper.GetLeaveRequests(s.ctx, &types.GetLeaveRequestsRequest{})
+}
+
+func (s *TestSuite) TestGetLeaveApprovedRequests() {
+
+	s.stdntKeeper.GetLeaveApprovedRequests(s.ctx, &types.GetLeaveApprovedRequestsRequest{})
+}
+
 func TestTestSuite(t *testing.T) {
 	suite.Run(t, new(TestSuite))
 }

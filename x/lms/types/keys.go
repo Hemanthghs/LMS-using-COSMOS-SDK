@@ -44,14 +44,6 @@ func StudentLeavesCounterKey(sid string) []byte {
 	return key
 }
 
-// func AcceptLeaveStoreKey(admin string, leaveId string) []byte {
-// 	key := make([]byte, len(AcceptLeaveKey)+len(admin)+len(leaveId))
-// 	copy(key, AcceptLeaveKey)
-// 	copy(key[len(AcceptLeaveKey):], []byte(admin))
-// 	copy(key[len(key):], []byte(leaveId))
-// 	return key
-// }
-
 func AcceptLeaveStoreKey(leaveid string) []byte {
 	key := make([]byte, len(AcceptLeaveKey)+len(leaveid))
 	copy(key, leaveid)

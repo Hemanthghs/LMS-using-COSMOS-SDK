@@ -99,9 +99,29 @@ func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveSt
 func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) {
 	store := ctx.KVStore(k.storeKey)
 	var t types.Student
-	tk := store.Iterator(types.StudentKey, nil)
-	for ; tk.Valid(); tk.Next() {
-		k.cdc.Unmarshal(tk.Value(), &t)
+	itr := store.Iterator(types.StudentKey, nil)
+	for ; itr.Valid(); itr.Next() {
+		k.cdc.Unmarshal(itr.Value(), &t)
+		fmt.Println(t)
+	}
+}
+
+func (k Keeper) GetLeaveRequests(ctx sdk.Context, getLeaveRequests *types.GetLeaveRequestsRequest) {
+	store := ctx.KVStore(k.storeKey)
+	var t types.ApplyLeaveRequest
+	itr := store.Iterator(types.LeaveKey, nil)
+	for ; itr.Valid(); itr.Next() {
+		k.cdc.Unmarshal(itr.Value(), &t)
+		fmt.Println(t)
+	}
+}
+
+func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) {
+	store := ctx.KVStore(k.storeKey)
+	var t types.ApplyLeaveRequest
+	itr := store.Iterator(types.AcceptLeaveKey, nil)
+	for ; itr.Valid(); itr.Next() {
+		k.cdc.Unmarshal(itr.Value(), &t)
 		fmt.Println(t)
 	}
 }
