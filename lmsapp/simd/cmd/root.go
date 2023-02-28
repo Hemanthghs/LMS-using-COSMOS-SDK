@@ -24,7 +24,8 @@ import (
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 
-	"lmsmodule/lmsapp"
+	// "lms-cosmos/lmsapp"
+	"github.com/Leave-Management-System/lms-cosmos/lmsapp"
 
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/simapp/params"

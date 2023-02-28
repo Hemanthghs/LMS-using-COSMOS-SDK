@@ -19,7 +19,12 @@ func NewTxCmd() *cobra.Command {
 		SuggestionsMinimumDistance: 4,
 		RunE:                       client.ValidateCmd,
 	}
-	txCmd.AddCommand()
+	txCmd.AddCommand(
+		NewRegisterAdminCmd(),
+		NewApplyLeaveReqcmd(),
+		NewAddStudentRequestCmd(),
+		NewAcceptLeaveReqCmd(),
+	)
 	return txCmd
 }
 

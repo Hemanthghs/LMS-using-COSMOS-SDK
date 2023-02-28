@@ -7,10 +7,12 @@ import (
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
 	// "github.com/cosmos/cosmos-sdk/simapp"
-	"lmsmodule/lmsapp"
+	// "lms-cosmos/lmsapp"
+	"github.com/Leave-Management-System/lms-cosmos/lmsapp"
 
 	// "github.com/cosmos/cosmos-sdk/simapp/simd/cmd"
-	"lmsmodule/lmsapp/simd/cmd"
+	// "lms-cosmos/lmsapp/simd/cmd"
+	"github.com/Leave-Management-System/lms-cosmos/lmsapp/simd/cmd"
 )
 
 func main() {
