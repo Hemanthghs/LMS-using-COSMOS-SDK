@@ -8,6 +8,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func NewQueryCmd() *cobra.Command {
+	txCmd := &cobra.Command{
+		Use:                        types.ModuleName,
+		Short:                      "LMS",
+		DisableFlagParsing:         false,
+		SuggestionsMinimumDistance: 4,
+		RunE:                       client.ValidateCmd,
+	}
+	txCmd.AddCommand()
+	return txCmd
+}
+
 var getStudents = &cobra.Command{
 	Use:   "getstudents",
 	Short: "To get the details of all students",
@@ -17,7 +29,7 @@ var getStudents = &cobra.Command{
 		clientctx, err := client.GetClientQueryContext(cmd)
 		handleError(err)
 		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetStudents(cmd.Context(), &types.GetStudentsRequest{})
+		res, err := queryClient.GetStudentsQuery(cmd.Context(), &types.GetStudentsRequest{})
 		handleError(err)
 		fmt.Println(res)
 	},
@@ -32,7 +44,7 @@ var getLeaveRequests = &cobra.Command{
 		clientctx, err := client.GetClientQueryContext(cmd)
 		handleError(err)
 		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetLeaveRequests(cmd.Context(), &types.GetLeaveRequestsRequest{})
+		res, err := queryClient.GetLeaveRequestsQuery(cmd.Context(), &types.GetLeaveRequestsRequest{})
 		handleError(err)
 		fmt.Println(res)
 	},
@@ -47,7 +59,7 @@ var getLeaveApprovedRequests = &cobra.Command{
 		clientctx, err := client.GetClientQueryContext(cmd)
 		handleError(err)
 		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetLeaveApprovedRequests(cmd.Context(), &types.GetLeaveApprovedRequestsRequest{})
+		res, err := queryClient.GetLeaveApprovedRequestsQuery(cmd.Context(), &types.GetLeaveApprovedRequestsRequest{})
 		handleError(err)
 		fmt.Println(res)
 	},
@@ -64,7 +76,7 @@ var getLeaveStatus = &cobra.Command{
 		clientctx, err := client.GetClientQueryContext(cmd)
 		handleError(err)
 		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetLeaveStatus(cmd.Context(), &types.GetLeaveStatusRequest{
+		res, err := queryClient.GetLeaveStatusQuery(cmd.Context(), &types.GetLeaveStatusRequest{
 			LeaveID: leaveid,
 		})
 		handleError(err)

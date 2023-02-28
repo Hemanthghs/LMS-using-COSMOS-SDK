@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -369,32 +370,36 @@ func init() {
 func init() { proto.RegisterFile("cosmos/lms/v1beta1/query.proto", fileDescriptor_4aaac713669af5ad) }
 
 var fileDescriptor_4aaac713669af5ad = []byte{
-	// 386 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0xcb, 0x4e, 0xfa, 0x40,
-	0x18, 0xc5, 0xdb, 0x90, 0xff, 0xc5, 0x0f, 0x35, 0x66, 0xbc, 0xd5, 0x92, 0x8c, 0xd8, 0x04, 0xef,
-	0x29, 0x01, 0x4c, 0x5c, 0x63, 0x4c, 0x08, 0xd1, 0x98, 0x58, 0x76, 0xae, 0xe4, 0x32, 0x31, 0x26,
-	0x85, 0x19, 0x3a, 0x53, 0x02, 0x4f, 0xe0, 0xd6, 0xc7, 0x72, 0x27, 0x4b, 0x97, 0x06, 0x5e, 0xc4,
-	0x50, 0xa6, 0x85, 0x96, 0x82, 0xb8, 0x70, 0xd9, 0x39, 0xe7, 0x7c, 0xbf, 0xaf, 0x99, 0x93, 0x01,
-	0x5c, 0xa7, 0xbc, 0x49, 0x79, 0xd6, 0x6e, 0xf2, 0x6c, 0x27, 0x57, 0x23, 0xa2, 0x9a, 0xcb, 0xb6,
-	0x5d, 0xe2, 0xf4, 0x4c, 0xe6, 0x50, 0x41, 0x11, 0x1a, 0xeb, 0xa6, 0xdd, 0xe4, 0xa6, 0xd4, 0xf5,
-	0x54, 0x4c, 0x46, 0x74, 0xc7, 0x01, 0x63, 0x0b, 0x50, 0x89, 0x88, 0x8a, 0x70, 0x1b, 0xa4, 0x25,
-	0xb8, 0x45, 0xda, 0x2e, 0xe1, 0xc2, 0xb8, 0x83, 0xcd, 0xd0, 0x29, 0x67, 0xb4, 0xc5, 0x09, 0xba,
-	0x84, 0xff, 0x5c, 0x9e, 0x69, 0x6a, 0x3a, 0x71, 0x9c, 0xcc, 0xa7, 0xcc, 0x59, 0xa0, 0x29, 0x73,
-	0x56, 0x60, 0x36, 0xf6, 0x60, 0xb7, 0x44, 0xc4, 0x2d, 0xa9, 0x76, 0x88, 0x44, 0x04, 0xa8, 0x27,
-	0xd0, 0x66, 0x25, 0xc9, 0xbb, 0x81, 0x35, 0x7b, 0x24, 0x38, 0x52, 0x90, 0xd0, 0x4c, 0x1c, 0xb4,
-	0xc8, 0x98, 0xdd, 0x9b, 0x1e, 0x63, 0x85, 0xb3, 0xc6, 0x01, 0xec, 0xfb, 0xa0, 0x22, 0x63, 0x0e,
-	0xed, 0x90, 0x46, 0x74, 0x17, 0x0a, 0xe9, 0xf9, 0x96, 0xdf, 0xd8, 0xa9, 0x0e, 0x3b, 0x3e, 0xb0,
-	0x22, 0xaa, 0xc2, 0x9d, 0x60, 0xca, 0xb0, 0x3a, 0x6d, 0xd5, 0xd4, 0xb4, 0xba, 0x3c, 0x25, 0x14,
-	0x35, 0x72, 0xb0, 0x1d, 0x85, 0x78, 0x02, 0xd2, 0xe0, 0x9f, 0x67, 0x2c, 0x5f, 0x7b, 0xe3, 0x57,
-	0x2c, 0xff, 0x33, 0xff, 0x9e, 0x80, 0x3f, 0xf7, 0xa3, 0x5a, 0xa1, 0x47, 0x48, 0x4e, 0x35, 0x01,
-	0x1d, 0xc6, 0x2d, 0x30, 0x5b, 0x20, 0xfd, 0xe8, 0x5b, 0xdf, 0xf8, 0x3f, 0x0d, 0x05, 0x51, 0xd8,
-	0x88, 0x16, 0x00, 0x9d, 0xcd, 0x89, 0xc7, 0x35, 0x48, 0x3f, 0x5f, 0xce, 0x1c, 0x00, 0x5f, 0xd4,
-	0x49, 0xe5, 0xa2, 0xd7, 0x8c, 0x0a, 0x8b, 0x86, 0xcd, 0xe9, 0x8d, 0x7e, 0xf1, 0xb3, 0x50, 0xb0,
-	0xc9, 0x33, 0xac, 0x87, 0x6f, 0x06, 0x9d, 0x2c, 0x9a, 0x14, 0xba, 0x3d, 0xfd, 0x74, 0x19, 0xab,
-	0x8f, 0xba, 0xca, 0xbc, 0x0d, 0xb0, 0xda, 0x1f, 0x60, 0xf5, 0x73, 0x80, 0xd5, 0xd7, 0x21, 0x56,
-	0xfa, 0x43, 0xac, 0x7c, 0x0c, 0xb1, 0xf2, 0x90, 0xec, 0x7a, 0x2f, 0x83, 0xe8, 0x31, 0xc2, 0x6b,
-	0x7f, 0xbd, 0x57, 0xa1, 0xf0, 0x15, 0x00, 0x00, 0xff, 0xff, 0xf8, 0xe9, 0xa1, 0x35, 0x68, 0x04,
-	0x00, 0x00,
+	// 452 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0xcd, 0xae, 0xd2, 0x40,
+	0x1c, 0xc5, 0x19, 0xbf, 0xfd, 0x5f, 0x4d, 0xcc, 0xf8, 0x55, 0x8b, 0xf4, 0x62, 0x0d, 0x7e, 0xa7,
+	0x0d, 0xf7, 0x9a, 0xb8, 0xbe, 0xc6, 0xe4, 0xe6, 0x46, 0x63, 0x62, 0xef, 0xce, 0x5d, 0xa1, 0x13,
+	0xd2, 0xa4, 0x74, 0x86, 0xce, 0x94, 0xc0, 0xd6, 0xa5, 0x2b, 0x8d, 0x0b, 0x1f, 0xc3, 0xd7, 0x70,
+	0x49, 0xe2, 0xc6, 0xa5, 0x01, 0x1f, 0xc1, 0x07, 0x30, 0xcc, 0x4c, 0xa1, 0x85, 0x16, 0x61, 0xe1,
+	0x92, 0x39, 0xe7, 0xf4, 0x77, 0x06, 0x0e, 0x05, 0xab, 0x4b, 0x79, 0x9f, 0x72, 0x37, 0xea, 0x73,
+	0x77, 0xd8, 0xee, 0x10, 0xe1, 0xb7, 0xdd, 0x41, 0x4a, 0x92, 0xb1, 0xc3, 0x12, 0x2a, 0x28, 0xc6,
+	0x4a, 0x77, 0xa2, 0x3e, 0x77, 0xb4, 0x6e, 0xd6, 0x4b, 0x32, 0x62, 0xa4, 0x02, 0xe6, 0xdd, 0x1e,
+	0xa5, 0xbd, 0x88, 0xb8, 0x3e, 0x0b, 0x5d, 0x3f, 0x8e, 0xa9, 0xf0, 0x45, 0x48, 0x63, 0xae, 0x54,
+	0xfb, 0x06, 0xe0, 0x63, 0x22, 0x4e, 0x45, 0x1a, 0x90, 0x58, 0x70, 0x8f, 0x0c, 0x52, 0xc2, 0x85,
+	0xfd, 0x16, 0xae, 0x17, 0x4e, 0x39, 0xa3, 0x31, 0x27, 0xf8, 0x05, 0x5c, 0xe2, 0xfa, 0xcc, 0x40,
+	0xcd, 0xb3, 0x8f, 0xf6, 0x0e, 0xea, 0xce, 0x7a, 0x1d, 0x47, 0xe7, 0xbc, 0x85, 0xd9, 0xbe, 0x03,
+	0xb7, 0x8f, 0x89, 0x78, 0x43, 0xfc, 0x21, 0xd1, 0x88, 0x05, 0xaa, 0x07, 0xc6, 0xba, 0xa4, 0x79,
+	0xaf, 0xe1, 0x6a, 0x34, 0x17, 0x12, 0x2d, 0x68, 0x68, 0xab, 0x0c, 0x7a, 0xc4, 0x58, 0x34, 0xce,
+	0x3f, 0xc6, 0x2b, 0x66, 0xed, 0x7b, 0xb0, 0x9f, 0x81, 0x8e, 0x18, 0x4b, 0xe8, 0x90, 0x04, 0xab,
+	0x5d, 0x28, 0x34, 0xab, 0x2d, 0xff, 0xa3, 0x53, 0x17, 0x6e, 0x65, 0xc0, 0x53, 0xe1, 0x8b, 0x74,
+	0x89, 0x39, 0x81, 0x2b, 0x79, 0xab, 0x81, 0x9a, 0x68, 0x7b, 0x4a, 0x21, 0x6a, 0xb7, 0xe1, 0xe6,
+	0x2a, 0x44, 0x0a, 0xd8, 0x80, 0x8b, 0xd2, 0x78, 0xf2, 0x4a, 0x3e, 0xfe, 0xb2, 0x97, 0x7d, 0x3c,
+	0xf8, 0x73, 0x0e, 0xce, 0xbf, 0x9b, 0x8f, 0x0e, 0x7f, 0x44, 0x70, 0x2d, 0x37, 0x05, 0x75, 0xf8,
+	0xa0, 0xac, 0xc6, 0xfa, 0x8c, 0xcc, 0x87, 0xff, 0xf4, 0xa9, 0xdb, 0xda, 0xad, 0x0f, 0x3f, 0x7e,
+	0x7f, 0x39, 0xb3, 0x8f, 0x1b, 0x6e, 0xc9, 0x92, 0xf5, 0x8a, 0xc2, 0x00, 0x7f, 0x45, 0xcb, 0xab,
+	0x64, 0x3f, 0x8c, 0x6a, 0xf4, 0xb4, 0x82, 0x54, 0x36, 0x39, 0xf3, 0xd9, 0x76, 0x66, 0xdd, 0xed,
+	0xbe, 0xec, 0xd6, 0xc0, 0xf5, 0xb2, 0x6e, 0xf2, 0x0b, 0x0b, 0x03, 0xfc, 0x0d, 0x41, 0xa3, 0x6a,
+	0x3a, 0xaa, 0xe1, 0xe1, 0x26, 0x68, 0xc5, 0x20, 0xcd, 0xe7, 0xbb, 0x85, 0x76, 0x69, 0xfc, 0x19,
+	0xc9, 0xff, 0x78, 0x6e, 0x16, 0xaa, 0xe7, 0xe3, 0x4d, 0xc8, 0xc2, 0x7e, 0xcc, 0x27, 0xdb, 0x58,
+	0x77, 0xe8, 0xf4, 0xb2, 0xf5, 0x7d, 0x6a, 0xa1, 0xc9, 0xd4, 0x42, 0xbf, 0xa6, 0x16, 0xfa, 0x34,
+	0xb3, 0x6a, 0x93, 0x99, 0x55, 0xfb, 0x39, 0xb3, 0x6a, 0xef, 0xf7, 0x46, 0x32, 0x20, 0xc6, 0x8c,
+	0xf0, 0xce, 0x05, 0xf9, 0xea, 0x3a, 0xfc, 0x1b, 0x00, 0x00, 0xff, 0xff, 0x90, 0xb9, 0xf5, 0xce,
+	0x2b, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -409,10 +414,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	GetStudents(ctx context.Context, in *GetStudentsRequest, opts ...grpc.CallOption) (*GetStudentsResponse, error)
-	GetLeaveRequests(ctx context.Context, in *GetLeaveRequestsRequest, opts ...grpc.CallOption) (*GetLeaveRequestsResponse, error)
-	GetLeaveApprovedRequests(ctx context.Context, in *GetLeaveApprovedRequestsRequest, opts ...grpc.CallOption) (*GetLeaveApprovedRequestsResponse, error)
-	GetLeaveStatus(ctx context.Context, in *GetLeaveStatusRequest, opts ...grpc.CallOption) (*GetLeaveStatusResponse, error)
+	GetStudentsQuery(ctx context.Context, in *GetStudentsRequest, opts ...grpc.CallOption) (*GetStudentsResponse, error)
+	GetLeaveRequestsQuery(ctx context.Context, in *GetLeaveRequestsRequest, opts ...grpc.CallOption) (*GetLeaveRequestsResponse, error)
+	GetLeaveApprovedRequestsQuery(ctx context.Context, in *GetLeaveApprovedRequestsRequest, opts ...grpc.CallOption) (*GetLeaveApprovedRequestsResponse, error)
+	GetLeaveStatusQuery(ctx context.Context, in *GetLeaveStatusRequest, opts ...grpc.CallOption) (*GetLeaveStatusResponse, error)
 }
 
 type queryClient struct {
@@ -423,36 +428,36 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) GetStudents(ctx context.Context, in *GetStudentsRequest, opts ...grpc.CallOption) (*GetStudentsResponse, error) {
+func (c *queryClient) GetStudentsQuery(ctx context.Context, in *GetStudentsRequest, opts ...grpc.CallOption) (*GetStudentsResponse, error) {
 	out := new(GetStudentsResponse)
-	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetStudents", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetStudentsQuery", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetLeaveRequests(ctx context.Context, in *GetLeaveRequestsRequest, opts ...grpc.CallOption) (*GetLeaveRequestsResponse, error) {
+func (c *queryClient) GetLeaveRequestsQuery(ctx context.Context, in *GetLeaveRequestsRequest, opts ...grpc.CallOption) (*GetLeaveRequestsResponse, error) {
 	out := new(GetLeaveRequestsResponse)
-	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetLeaveRequests", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetLeaveRequestsQuery", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetLeaveApprovedRequests(ctx context.Context, in *GetLeaveApprovedRequestsRequest, opts ...grpc.CallOption) (*GetLeaveApprovedRequestsResponse, error) {
+func (c *queryClient) GetLeaveApprovedRequestsQuery(ctx context.Context, in *GetLeaveApprovedRequestsRequest, opts ...grpc.CallOption) (*GetLeaveApprovedRequestsResponse, error) {
 	out := new(GetLeaveApprovedRequestsResponse)
-	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetLeaveApprovedRequests", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetLeaveApprovedRequestsQuery", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetLeaveStatus(ctx context.Context, in *GetLeaveStatusRequest, opts ...grpc.CallOption) (*GetLeaveStatusResponse, error) {
+func (c *queryClient) GetLeaveStatusQuery(ctx context.Context, in *GetLeaveStatusRequest, opts ...grpc.CallOption) (*GetLeaveStatusResponse, error) {
 	out := new(GetLeaveStatusResponse)
-	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetLeaveStatus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cosmos.lms.v1beta1.Query/GetLeaveStatusQuery", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -461,101 +466,101 @@ func (c *queryClient) GetLeaveStatus(ctx context.Context, in *GetLeaveStatusRequ
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	GetStudents(context.Context, *GetStudentsRequest) (*GetStudentsResponse, error)
-	GetLeaveRequests(context.Context, *GetLeaveRequestsRequest) (*GetLeaveRequestsResponse, error)
-	GetLeaveApprovedRequests(context.Context, *GetLeaveApprovedRequestsRequest) (*GetLeaveApprovedRequestsResponse, error)
-	GetLeaveStatus(context.Context, *GetLeaveStatusRequest) (*GetLeaveStatusResponse, error)
+	GetStudentsQuery(context.Context, *GetStudentsRequest) (*GetStudentsResponse, error)
+	GetLeaveRequestsQuery(context.Context, *GetLeaveRequestsRequest) (*GetLeaveRequestsResponse, error)
+	GetLeaveApprovedRequestsQuery(context.Context, *GetLeaveApprovedRequestsRequest) (*GetLeaveApprovedRequestsResponse, error)
+	GetLeaveStatusQuery(context.Context, *GetLeaveStatusRequest) (*GetLeaveStatusResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) GetStudents(ctx context.Context, req *GetStudentsRequest) (*GetStudentsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetStudents not implemented")
+func (*UnimplementedQueryServer) GetStudentsQuery(ctx context.Context, req *GetStudentsRequest) (*GetStudentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStudentsQuery not implemented")
 }
-func (*UnimplementedQueryServer) GetLeaveRequests(ctx context.Context, req *GetLeaveRequestsRequest) (*GetLeaveRequestsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLeaveRequests not implemented")
+func (*UnimplementedQueryServer) GetLeaveRequestsQuery(ctx context.Context, req *GetLeaveRequestsRequest) (*GetLeaveRequestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLeaveRequestsQuery not implemented")
 }
-func (*UnimplementedQueryServer) GetLeaveApprovedRequests(ctx context.Context, req *GetLeaveApprovedRequestsRequest) (*GetLeaveApprovedRequestsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLeaveApprovedRequests not implemented")
+func (*UnimplementedQueryServer) GetLeaveApprovedRequestsQuery(ctx context.Context, req *GetLeaveApprovedRequestsRequest) (*GetLeaveApprovedRequestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLeaveApprovedRequestsQuery not implemented")
 }
-func (*UnimplementedQueryServer) GetLeaveStatus(ctx context.Context, req *GetLeaveStatusRequest) (*GetLeaveStatusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLeaveStatus not implemented")
+func (*UnimplementedQueryServer) GetLeaveStatusQuery(ctx context.Context, req *GetLeaveStatusRequest) (*GetLeaveStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLeaveStatusQuery not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
 }
 
-func _Query_GetStudents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Query_GetStudentsQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetStudentsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetStudents(ctx, in)
+		return srv.(QueryServer).GetStudentsQuery(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cosmos.lms.v1beta1.Query/GetStudents",
+		FullMethod: "/cosmos.lms.v1beta1.Query/GetStudentsQuery",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetStudents(ctx, req.(*GetStudentsRequest))
+		return srv.(QueryServer).GetStudentsQuery(ctx, req.(*GetStudentsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetLeaveRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Query_GetLeaveRequestsQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLeaveRequestsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetLeaveRequests(ctx, in)
+		return srv.(QueryServer).GetLeaveRequestsQuery(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cosmos.lms.v1beta1.Query/GetLeaveRequests",
+		FullMethod: "/cosmos.lms.v1beta1.Query/GetLeaveRequestsQuery",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetLeaveRequests(ctx, req.(*GetLeaveRequestsRequest))
+		return srv.(QueryServer).GetLeaveRequestsQuery(ctx, req.(*GetLeaveRequestsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetLeaveApprovedRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Query_GetLeaveApprovedRequestsQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLeaveApprovedRequestsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetLeaveApprovedRequests(ctx, in)
+		return srv.(QueryServer).GetLeaveApprovedRequestsQuery(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cosmos.lms.v1beta1.Query/GetLeaveApprovedRequests",
+		FullMethod: "/cosmos.lms.v1beta1.Query/GetLeaveApprovedRequestsQuery",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetLeaveApprovedRequests(ctx, req.(*GetLeaveApprovedRequestsRequest))
+		return srv.(QueryServer).GetLeaveApprovedRequestsQuery(ctx, req.(*GetLeaveApprovedRequestsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetLeaveStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Query_GetLeaveStatusQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLeaveStatusRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetLeaveStatus(ctx, in)
+		return srv.(QueryServer).GetLeaveStatusQuery(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cosmos.lms.v1beta1.Query/GetLeaveStatus",
+		FullMethod: "/cosmos.lms.v1beta1.Query/GetLeaveStatusQuery",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetLeaveStatus(ctx, req.(*GetLeaveStatusRequest))
+		return srv.(QueryServer).GetLeaveStatusQuery(ctx, req.(*GetLeaveStatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -565,20 +570,20 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetStudents",
-			Handler:    _Query_GetStudents_Handler,
+			MethodName: "GetStudentsQuery",
+			Handler:    _Query_GetStudentsQuery_Handler,
 		},
 		{
-			MethodName: "GetLeaveRequests",
-			Handler:    _Query_GetLeaveRequests_Handler,
+			MethodName: "GetLeaveRequestsQuery",
+			Handler:    _Query_GetLeaveRequestsQuery_Handler,
 		},
 		{
-			MethodName: "GetLeaveApprovedRequests",
-			Handler:    _Query_GetLeaveApprovedRequests_Handler,
+			MethodName: "GetLeaveApprovedRequestsQuery",
+			Handler:    _Query_GetLeaveApprovedRequestsQuery_Handler,
 		},
 		{
-			MethodName: "GetLeaveStatus",
-			Handler:    _Query_GetLeaveStatus_Handler,
+			MethodName: "GetLeaveStatusQuery",
+			Handler:    _Query_GetLeaveStatusQuery_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

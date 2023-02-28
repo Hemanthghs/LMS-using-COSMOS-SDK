@@ -37,7 +37,7 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetStudents(cmd.Context(), &types.GetStudentsRequest{})
+		res, err := queryClient.GetStudentsQuery(cmd.Context(), &types.GetStudentsRequest{})
 		handleError(err)
 		fmt.Println(res)
 	},

@@ -6,31 +6,31 @@ import (
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
 )
 
-var _ types.QueryServer = queryServer{}
+var _ types.QueryServer = Keeper{}
 
-type queryServer struct {
-	Keeper
-	types.UnimplementedQueryServer
-}
+// type queryServer struct {
+// 	Keeper
+// 	types.UnimplementedQueryServer
+// }
 
-func NewQueryServerImpl(k Keeper) types.QueryServer {
-	return &queryServer{
-		Keeper: k,
-	}
-}
+// func NewQueryServerImpl(k Keeper) types.QueryServer {
+// 	return &queryServer{
+// 		Keeper: k,
+// 	}
+// }
 
-func (k queryServer) GetStudents(context.Context, *types.GetStudentsRequest) (*types.GetStudentsResponse, error) {
+func (k Keeper) GetStudentsQuery(context.Context, *types.GetStudentsRequest) (*types.GetStudentsResponse, error) {
 	return &types.GetStudentsResponse{}, nil
 }
 
-func (k queryServer) GetLeaveRequests(context.Context, *types.GetLeaveRequestsRequest) (*types.GetLeaveRequestsResponse, error) {
+func (k Keeper) GetLeaveRequestsQuery(context.Context, *types.GetLeaveRequestsRequest) (*types.GetLeaveRequestsResponse, error) {
 	return &types.GetLeaveRequestsResponse{}, nil
 }
 
-func (k queryServer) GetLeaveApprovedRequests(context.Context, *types.GetLeaveApprovedRequestsRequest) (*types.GetLeaveApprovedRequestsResponse, error) {
+func (k Keeper) GetLeaveApprovedRequestsQuery(context.Context, *types.GetLeaveApprovedRequestsRequest) (*types.GetLeaveApprovedRequestsResponse, error) {
 	return &types.GetLeaveApprovedRequestsResponse{}, nil
 }
 
-func (k queryServer) GetLeaveStatus(context.Context, *types.GetLeaveStatusRequest) (*types.GetLeaveStatusResponse, error) {
+func (k Keeper) GetLeaveStatusQuery(context.Context, *types.GetLeaveStatusRequest) (*types.GetLeaveStatusResponse, error) {
 	return &types.GetLeaveStatusResponse{}, nil
 }
