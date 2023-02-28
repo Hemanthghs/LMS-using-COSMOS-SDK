@@ -1,4 +1,4 @@
-package main
+package cli
 
 import (
 	"fmt"
@@ -77,6 +77,7 @@ func init() {
 	rootCmd.AddCommand(getLeaveRequests)
 	rootCmd.AddCommand(getLeaveApprovedRequests)
 	rootCmd.AddCommand(getLeaveStatus)
+	rootCmd.SuggestionsMinimumDistance = 4
 
 	// Here you will define your flags and configuration settings.
 

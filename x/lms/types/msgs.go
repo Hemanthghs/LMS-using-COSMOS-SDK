@@ -20,7 +20,7 @@ var (
 )
 
 // Register Admin
-func NewRegisterAdminReq(accAddr sdk.AccAddress) *RegisterAdminRequest {
+func NewRegisterAdminReq(accAddr sdk.AccAddress, name string) *RegisterAdminRequest {
 	return &RegisterAdminRequest{
 		Address: accAddr.String(),
 	}
