@@ -1,6 +1,8 @@
 package types
 
 import (
+	"time"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -51,7 +53,7 @@ func (msg RegisterAdminRequest) ValidateBasic() error {
 }
 
 // Add Student
-func NewAddStudentReq(accountAddr sdk.AccAddress) *AddStudentRequest {
+func NewAddStudentReq(accountAddr sdk.AccAddress, students []*Student) *AddStudentRequest {
 	return &AddStudentRequest{
 		Admin: accountAddr.String(),
 	}
@@ -84,7 +86,7 @@ func (msg AddStudentRequest) ValidateBasic() error {
 
 //Apply Leave
 
-func NewApplyLeaveReq(accountAddr sdk.AccAddress) *ApplyLeaveRequest {
+func NewApplyLeaveReq(accountAddr sdk.AccAddress, reason string, from *time.Time, to *time.Time) *ApplyLeaveRequest {
 	return &ApplyLeaveRequest{
 		Address: accountAddr.String(),
 	}
@@ -117,7 +119,7 @@ func (msg ApplyLeaveRequest) ValidateBasic() error {
 
 // Accept Leave
 
-func NewAcceptLeaveReq(accountAddr sdk.AccAddress) *AcceptLeaveRequest {
+func NewAcceptLeaveReq(accountAddr sdk.AccAddress, LeaveId string, Status string) *AcceptLeaveRequest {
 	return &AcceptLeaveRequest{
 		Admin: accountAddr.String(),
 	}
