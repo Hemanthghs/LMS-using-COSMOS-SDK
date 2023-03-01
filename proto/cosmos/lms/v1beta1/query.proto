@@ -10,16 +10,16 @@ import "google/api/annotations.proto" ;
 
 service Query {
     rpc GetStudentsQuery(GetStudentsRequest) returns (GetStudentsResponse){
-        option (google.api.http).get   = "/cosmos/lms/v1beta1/studentid";
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/getstudent";
     };
     rpc GetLeaveRequestsQuery(GetLeaveRequestsRequest) returns (GetLeaveRequestsResponse){
-        option (google.api.http).get   = "/cosmos/lms/v1beta1/leaveid";
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/getleave";
     };
     rpc GetLeaveApprovedRequestsQuery(GetLeaveApprovedRequestsRequest) returns (GetLeaveApprovedRequestsResponse){
-        option (google.api.http).get   = "/cosmos/lms/v1beta1/leaveid";
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/getapproved";
     };
     rpc GetLeaveStatusQuery(GetLeaveStatusRequest) returns (GetLeaveStatusResponse){
-        option (google.api.http).get   = "/cosmos/lms/v1beta1/leaveid";
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/getstatus";
     };
 }
 
