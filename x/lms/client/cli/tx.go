@@ -35,9 +35,10 @@ func NewTxCmd() *cobra.Command {
 
 func NewRegisterAdminCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "registeradmin",
+		Use:   "registeradmin [name] [address]",
 		Short: "To register new admin",
 		Long:  "To register new admin",
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			handleError(err)
@@ -81,9 +82,10 @@ func NewAddStudentRequestCmd() *cobra.Command {
 
 func NewApplyLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "applyleave",
+		Use:   "applyleave [Address] [Reason] [from] [to]",
 		Short: "To apply for a leave",
 		Long:  "To apply for a leave",
+		Args:  cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			handleError(err)
@@ -102,9 +104,10 @@ func NewApplyLeaveReqCmd() *cobra.Command {
 
 func NewAcceptLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "acceptleave",
+		Use:   "acceptleave [Admin] [LeaveId] [Status]",
 		Short: "To accept a leave request",
 		Long:  "To accept a leave request",
+		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCxt, err := client.GetClientTxContext(cmd)
 			handleError(err)
