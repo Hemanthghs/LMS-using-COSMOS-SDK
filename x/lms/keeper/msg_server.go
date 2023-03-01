@@ -39,7 +39,7 @@ func (k msgServer) RegisterAdmin(ctx context.Context, req *types.RegisterAdminRe
 }
 
 func (k msgServer) AcceptLeave(ctx context.Context, req *types.AcceptLeaveRequest) (*types.AcceptLeaveResponse, error) {
-	// sdkCtx := sdk.UnwrapSDKContext(ctx)
-	// k.Keeper.AcceptLeave(sdkCtx, req)
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	k.Keeper.AcceptLeave(sdkCtx, req)
 	return &types.AcceptLeaveResponse{}, nil
 }
