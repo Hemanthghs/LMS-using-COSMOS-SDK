@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"log"
 	"time"
 
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
@@ -10,6 +11,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 )
+
+func handleError(err error) {
+	log.Fatal(err)
+}
 
 func NewTxCmd() *cobra.Command {
 	txCmd := &cobra.Command{
@@ -21,7 +26,7 @@ func NewTxCmd() *cobra.Command {
 	}
 	txCmd.AddCommand(
 		NewRegisterAdminCmd(),
-		NewApplyLeaveReqcmd(),
+		NewApplyLeaveReqCmd(),
 		NewAddStudentRequestCmd(),
 		NewAcceptLeaveReqCmd(),
 	)
@@ -74,7 +79,7 @@ func NewAddStudentRequestCmd() *cobra.Command {
 	return cmd
 }
 
-func NewApplyLeaveReqcmd() *cobra.Command {
+func NewApplyLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "applyleave",
 		Short: "To apply for a leave",

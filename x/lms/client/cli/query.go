@@ -1,10 +1,9 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 )
 
@@ -16,89 +15,89 @@ func NewQueryCmd() *cobra.Command {
 		SuggestionsMinimumDistance: 4,
 		RunE:                       client.ValidateCmd,
 	}
-	txCmd.AddCommand()
+	txCmd.AddCommand(
+		GetStudentsCmd(),
+		GetLeaveRequestsCmd(),
+		GetLeaveApprovedRequestsCmd(),
+		GetLeaveStatusCmd(),
+	)
 	return txCmd
 }
 
-var getStudents = &cobra.Command{
-	Use:   "getstudents",
-	Short: "To get the details of all students",
-	Long:  "To get the details of all students",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		clientctx, err := client.GetClientQueryContext(cmd)
-		handleError(err)
-		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetStudentsQuery(cmd.Context(), &types.GetStudentsRequest{})
-		handleError(err)
-		fmt.Println(res)
-	},
+func GetStudentsCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "getstudent",
+		Short: "To get the list of all students",
+		Long:  "To get teh list of all students",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			handleError(err)
+			getStudentsRequest := &types.GetStudentsRequest{}
+			queryClient := types.NewQueryClient(clientCtx)
+			res, err := queryClient.GetStudentsQuery(cmd.Context(), getStudentsRequest)
+			handleError(err)
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
 }
 
-var getLeaveRequests = &cobra.Command{
-	Use:   "getleaves",
-	Short: "To get all the leave requests",
-	Long:  "To get all the leave requests",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		clientctx, err := client.GetClientQueryContext(cmd)
-		handleError(err)
-		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetLeaveRequestsQuery(cmd.Context(), &types.GetLeaveRequestsRequest{})
-		handleError(err)
-		fmt.Println(res)
-	},
+func GetLeaveRequestsCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "getleaves",
+		Short: "To get the list of all the leave requets",
+		Long:  "To get the list of all the leave requests",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			handleError(err)
+			getLeavesRequest := &types.GetLeaveRequestsRequest{}
+			queryClient := types.NewQueryClient(clientCtx)
+			res, err := queryClient.GetLeaveRequestsQuery(cmd.Context(), getLeavesRequest)
+			handleError(err)
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
 }
 
-var getLeaveApprovedRequests = &cobra.Command{
-	Use:   "getapproved",
-	Short: "To get all the approved leaves",
-	Long:  "To get all the approved leaves",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		clientctx, err := client.GetClientQueryContext(cmd)
-		handleError(err)
-		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetLeaveApprovedRequestsQuery(cmd.Context(), &types.GetLeaveApprovedRequestsRequest{})
-		handleError(err)
-		fmt.Println(res)
-	},
+func GetLeaveStatusCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "getstatus",
+		Short: "To get the leave status",
+		Long:  "To get the leave status",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			handleError(err)
+			getLeaveStatusRequest := &types.GetLeaveStatusRequest{
+				LeaveID: args[0],
+			}
+			queryClient := types.NewQueryClient(clientCtx)
+			res, err := queryClient.GetLeaveStatusQuery(cmd.Context(), getLeaveStatusRequest)
+			handleError(err)
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
 }
 
-var getLeaveStatus = &cobra.Command{
-	Use:   "getstatus",
-	Short: "To get the leave status",
-	Long:  "To get the leave status",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		leaveid, err := cmd.Flags().GetString("leaveid")
-		handleError(err)
-		clientctx, err := client.GetClientQueryContext(cmd)
-		handleError(err)
-		queryClient := types.NewQueryClient(clientctx)
-		res, err := queryClient.GetLeaveStatusQuery(cmd.Context(), &types.GetLeaveStatusRequest{
-			LeaveID: leaveid,
-		})
-		handleError(err)
-		fmt.Println(res)
-	},
-}
-
-func init() {
-	rootCmd.AddCommand(getStudents)
-	rootCmd.AddCommand(getLeaveRequests)
-	rootCmd.AddCommand(getLeaveApprovedRequests)
-	rootCmd.AddCommand(getLeaveStatus)
-	rootCmd.SuggestionsMinimumDistance = 4
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// getuserCmd.PersistentFlags().String("email", "", "User email")
-	getLeaveStatus.PersistentFlags().String("leaveid", "", "Leave ID")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// getuserCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func GetLeaveApprovedRequestsCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "getapproved",
+		Short: "To get the list of approved leaves",
+		Long:  "To get the list of approved leaves",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			handleError(err)
+			getLeavesRequest := &types.GetLeaveApprovedRequestsRequest{}
+			queryClient := types.NewQueryClient(clientCtx)
+			res, err := queryClient.GetLeaveApprovedRequestsQuery(cmd.Context(), getLeavesRequest)
+			handleError(err)
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
 }
