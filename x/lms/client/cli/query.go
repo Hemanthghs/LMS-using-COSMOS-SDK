@@ -26,7 +26,7 @@ func NewQueryCmd() *cobra.Command {
 
 func GetStudentsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "getstudent",
+		Use:   "getstudents",
 		Short: "To get the list of all students",
 		Long:  "To get teh list of all students",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -64,9 +64,10 @@ func GetLeaveRequestsCmd() *cobra.Command {
 
 func GetLeaveStatusCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "getstatus",
+		Use:   "getstatus [LeaveId]",
 		Short: "To get the leave status",
 		Long:  "To get the leave status",
+		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			handleError(err)
