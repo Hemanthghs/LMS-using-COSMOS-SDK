@@ -23,6 +23,7 @@ func (k Keeper) RegisterAdmin(ctx sdk.Context, registerAdmin *types.RegisterAdmi
 		return types.ErrAdminAddressNil
 	} else {
 		store := ctx.KVStore(k.storeKey)
+		// panic("hello")
 		marshalRegisterAdmin, err := k.cdc.Marshal(registerAdmin)
 		handleError(err)
 		store.Set(types.AdminStoreKey(registerAdmin.Address), marshalRegisterAdmin)
@@ -59,7 +60,8 @@ func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest)
 	store := ctx.KVStore(k.storeKey)
 	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
 	handleError(err)
-	addr := types.StudentLeavesCounterKey(sdk.AccAddress(string(applyLeave.Address)).String())
+	addr := types.StudentLeavesCounterKey(applyLeave.Address)
+	// addr := types.StudentLeavesCounterKey(sdk.AccAddress(string(applyLeave.Address)).String())
 	counter := store.Get(addr)
 	if counter == nil {
 		store.Set(addr, []byte("1"))
@@ -96,14 +98,15 @@ func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveSt
 	return status
 }
 
-func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) []types.Student {
+func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) []*types.Student {
 	store := ctx.KVStore(k.storeKey)
-	var t types.Student
-	var students []types.Student
+
+	var students []*types.Student
 	itr := store.Iterator(types.StudentKey, nil)
 	for ; itr.Valid(); itr.Next() {
+		var t types.Student
 		k.cdc.Unmarshal(itr.Value(), &t)
-		students = append(students, t)
+		students = append(students, &t)
 	}
 	return students
 }

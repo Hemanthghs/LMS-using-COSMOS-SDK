@@ -11,8 +11,11 @@ var _ types.QueryServer = Keeper{}
 
 func (k Keeper) GetStudentsQuery(goCtx context.Context, req *types.GetStudentsRequest) (*types.GetStudentsResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetStudents(ctx, req)
-	return &types.GetStudentsResponse{}, nil
+	res := k.GetStudents(ctx, req)
+	// panic(res)
+	return &types.GetStudentsResponse{
+		Students: res,
+	}, nil
 }
 
 func (k Keeper) GetLeaveRequestsQuery(goCtx context.Context, req *types.GetLeaveRequestsRequest) (*types.GetLeaveRequestsResponse, error) {

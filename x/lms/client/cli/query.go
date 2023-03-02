@@ -31,11 +31,15 @@ func GetStudentsCmd() *cobra.Command {
 		Long:  "To get teh list of all students",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			getStudentsRequest := &types.GetStudentsRequest{}
 			queryClient := types.NewQueryClient(clientCtx)
 			res, err := queryClient.GetStudentsQuery(cmd.Context(), getStudentsRequest)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			return clientCtx.PrintProto(res)
 		},
 	}
@@ -50,11 +54,15 @@ func GetLeaveRequestsCmd() *cobra.Command {
 		Long:  "To get the list of all the leave requests",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			getLeavesRequest := &types.GetLeaveRequestsRequest{}
 			queryClient := types.NewQueryClient(clientCtx)
 			res, err := queryClient.GetLeaveRequestsQuery(cmd.Context(), getLeavesRequest)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			return clientCtx.PrintProto(res)
 		},
 	}
@@ -70,13 +78,17 @@ func GetLeaveStatusCmd() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			getLeaveStatusRequest := &types.GetLeaveStatusRequest{
 				LeaveID: args[0],
 			}
 			queryClient := types.NewQueryClient(clientCtx)
 			res, err := queryClient.GetLeaveStatusQuery(cmd.Context(), getLeaveStatusRequest)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			return clientCtx.PrintProto(res)
 		},
 	}
@@ -91,11 +103,15 @@ func GetLeaveApprovedRequestsCmd() *cobra.Command {
 		Long:  "To get the list of approved leaves",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			getLeavesRequest := &types.GetLeaveApprovedRequestsRequest{}
 			queryClient := types.NewQueryClient(clientCtx)
 			res, err := queryClient.GetLeaveApprovedRequestsQuery(cmd.Context(), getLeavesRequest)
-			handleError(err)
+			if err != nil {
+				panic(err)
+			}
 			return clientCtx.PrintProto(res)
 		},
 	}

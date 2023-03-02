@@ -25,6 +25,7 @@ var (
 
 // Register Admin
 func NewRegisterAdminReq(accAddr sdk.AccAddress, name string) *RegisterAdminRequest {
+	// panic("called")
 	return &RegisterAdminRequest{
 		Address: accAddr.String(),
 		Name:    name,
@@ -32,8 +33,8 @@ func NewRegisterAdminReq(accAddr sdk.AccAddress, name string) *RegisterAdminRequ
 }
 
 func (msg RegisterAdminRequest) GetSignBytes() []byte {
-	b := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(b)
+	return []byte{}
+
 }
 
 func (msg RegisterAdminRequest) GetSigners() []sdk.AccAddress {
@@ -69,8 +70,7 @@ func NewAddStudentReq(accountAddr sdk.AccAddress, students []*Student) *AddStude
 }
 
 func (msg AddStudentRequest) GetSignBytes() []byte {
-	b := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(b)
+	return []byte{}
 }
 
 func (msg AddStudentRequest) Route() string {
@@ -83,6 +83,7 @@ func (msg AddStudentRequest) Type() string {
 
 func (msg AddStudentRequest) GetSigners() []sdk.AccAddress {
 	valAddr, _ := sdk.AccAddressFromBech32(msg.Admin)
+	// valAddr, _ := sdk.AccAddressFromBech32(msg.Admin)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }
 
@@ -101,6 +102,7 @@ func (msg AddStudentRequest) ValidateBasic() error {
 //Apply Leave
 
 func NewApplyLeaveReq(accountAddr sdk.AccAddress, reason string, from *time.Time, to *time.Time) *ApplyLeaveRequest {
+	// panic("called 2")
 	return &ApplyLeaveRequest{
 		Address: accountAddr.String(),
 		Reason:  reason,
@@ -118,12 +120,12 @@ func (msg ApplyLeaveRequest) Type() string {
 }
 
 func (msg ApplyLeaveRequest) GetSignBytes() []byte {
-	b := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(b)
+	return []byte{}
 }
 
 func (msg ApplyLeaveRequest) GetSigners() []sdk.AccAddress {
 	valAddr, _ := sdk.AccAddressFromBech32(msg.Address)
+	// valAddr, _ := sdk.AccAddressFromBech32(msg.Address)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }
 
@@ -169,12 +171,12 @@ func (msg AcceptLeaveRequest) Type() string {
 }
 
 func (msg AcceptLeaveRequest) GetSignBytes() []byte {
-	b := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(b)
+	return []byte{}
 }
 
 func (msg AcceptLeaveRequest) GetSigners() []sdk.AccAddress {
 	valAddr, _ := sdk.AccAddressFromBech32(msg.Admin)
+	// valAddr, _ := sdk.AccAddressFromBech32(msg.Admin)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }
 
