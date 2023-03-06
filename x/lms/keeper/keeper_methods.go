@@ -102,7 +102,7 @@ func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsReque
 	store := ctx.KVStore(k.storeKey)
 
 	var students []*types.Student
-	itr := store.Iterator(types.StudentKey, nil)
+	itr := sdk.KVStorePrefixIterator(store, types.StudentKey)
 	for ; itr.Valid(); itr.Next() {
 		var t types.Student
 		k.cdc.Unmarshal(itr.Value(), &t)
@@ -115,7 +115,7 @@ func (k Keeper) GetLeaveRequests(ctx sdk.Context, getLeaveRequests *types.GetLea
 	store := ctx.KVStore(k.storeKey)
 	var t types.ApplyLeaveRequest
 	var leaves []types.ApplyLeaveRequest
-	itr := store.Iterator(types.LeaveKey, nil)
+	itr := sdk.KVStorePrefixIterator(store, types.LeaveKey)
 	for ; itr.Valid(); itr.Next() {
 		k.cdc.Unmarshal(itr.Value(), &t)
 		leaves = append(leaves, t)

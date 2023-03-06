@@ -28,7 +28,7 @@ func GetStudentsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "getstudents",
 		Short: "To get the list of all students",
-		Long:  "To get teh list of all students",
+		Long:  "To get the list of all students",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
