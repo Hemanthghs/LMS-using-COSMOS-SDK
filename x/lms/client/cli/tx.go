@@ -66,11 +66,11 @@ func NewAddStudentRequestCmd() *cobra.Command {
 			// adminaddress, _ := sdk.AccAddressFromBech32(args[0])
 			adminaddress := fromadd
 			students := []*types.Student{}
-			for i := 0; i < (len(args)-1)/3; i++ {
+			for i := 0; i < (len(args))/3; i++ {
 				student := &types.Student{
-					Name:    args[3*i+1],
-					Id:      args[3*i+2],
-					Address: args[3*i+3],
+					Name:    args[3*i],
+					Id:      args[3*i+1],
+					Address: args[3*i+2],
 				}
 				students = append(students, student)
 			}
