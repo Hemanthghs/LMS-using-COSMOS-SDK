@@ -90,10 +90,18 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	leaveCount := store.Get(types.StudentLeavesCounterKey(acceptLeave.LeaveId))
 	leaveid := store.Get(types.LeaveStoreKey(acceptLeave.LeaveId, string(leaveCount)))
 	store.Set(types.AcceptLeaveStoreKey(string(leaveid)), marshalAcceptLeave)
-	r := store.Get(types.AcceptLeaveStoreKey(string(leaveid)))
-	var res types.AcceptLeaveRequest
-	k.cdc.Unmarshal(r, &res)
+	// r := store.Get(types.AcceptLeaveStoreKey(string(leaveid)))
+	// var res types.AcceptLeaveRequest
+	// k.cdc.Unmarshal(r, &res)
 	// panic(res)
+	c := store.Get(types.StudentLeavesCounterKey(acceptLeave.LeaveId))
+	count := string(c)
+	l := store.Get(types.LeaveStoreKey(acceptLeave.LeaveId, count))
+	var leave types.ApplyLeaveRequest
+	k.cdc.Unmarshal(l, &leave)
+	leave.Status = acceptLeave.Status
+	leaveMarhsal, _ := k.cdc.Marshal(&leave)
+	store.Set(types.LeaveStoreKey(acceptLeave.LeaveId, count), leaveMarhsal)
 	return "Leave Status Updated"
 }
 
