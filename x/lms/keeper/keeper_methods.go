@@ -124,15 +124,16 @@ func (k Keeper) GetLeaveRequests(ctx sdk.Context, getLeaveRequests *types.GetLea
 	return leaves
 }
 
-func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) []types.ApplyLeaveRequest {
+func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) []*types.ApplyLeaveRequest {
 	store := ctx.KVStore(k.storeKey)
 	var t types.ApplyLeaveRequest
-	var approvedleaves []types.ApplyLeaveRequest
+	var approvedleaves []*types.ApplyLeaveRequest
 	itr := sdk.KVStorePrefixIterator(store, types.AcceptLeaveKey)
 	for ; itr.Valid(); itr.Next() {
 		k.cdc.Unmarshal(itr.Value(), &t)
-		approvedleaves = append(approvedleaves, t)
+		approvedleaves = append(approvedleaves, &t)
 	}
+	// panic(approvedleaves)
 	return approvedleaves
 }
 

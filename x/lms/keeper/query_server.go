@@ -28,8 +28,10 @@ func (k Keeper) GetLeaveRequestsQuery(goCtx context.Context, req *types.GetLeave
 
 func (k Keeper) GetLeaveApprovedRequestsQuery(goCtx context.Context, req *types.GetLeaveApprovedRequestsRequest) (*types.GetLeaveApprovedRequestsResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetLeaveApprovedRequests(ctx, req)
-	return &types.GetLeaveApprovedRequestsResponse{}, nil
+	res := k.GetLeaveApprovedRequests(ctx, req)
+	return &types.GetLeaveApprovedRequestsResponse{
+		Leaverequests: res,
+	}, nil
 }
 
 func (k Keeper) GetLeaveStatusQuery(goCtx context.Context, req *types.GetLeaveStatusRequest) (*types.GetLeaveStatusResponse, error) {
