@@ -113,15 +113,18 @@ func NewAcceptLeaveReqCmd() *cobra.Command {
 		Long:  "To accept a leave request",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCxt, err := client.GetClientTxContext(cmd)
+			clientCtx, err := client.GetClientTxContext(cmd)
+			fromadd := clientCtx.GetFromAddress()
+
 			if err != nil {
 				panic(err)
 			}
-			Admin := args[0]
-			LeaveId := args[1]
-			Status := args[2]
-			msg := types.NewAcceptLeaveReq(sdk.AccAddress(Admin), LeaveId, Status)
-			return tx.GenerateOrBroadcastTxCLI(clientCxt, cmd.Flags(), msg)
+			// Admin := args[0]
+			Admin := fromadd
+			LeaveId := args[0]
+			Status := args[1]
+			msg := types.NewAcceptLeaveReq(Admin, LeaveId, Status)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 	flags.AddTxFlagsToCmd(cmd)
