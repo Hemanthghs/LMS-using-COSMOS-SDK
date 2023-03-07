@@ -240,7 +240,7 @@ func (s *TestSuite) Test_AddStudent_ApplyLeave_AcceptLeave_GetLeaveStatus() {
 	req4 := types.GetLeaveStatusRequest{
 		LeaveID: sdk.AccAddress("lms1").String(),
 	}
-	res4 := s.stdntKeeper.GetLeaveStatus(s.ctx, &req4)
+	res4, _ := s.stdntKeeper.GetLeaveStatus(s.ctx, &req4)
 	fmt.Println("Res 4:", res4)
 	res := s.stdntKeeper.GetLeaveApprovedRequests(s.ctx, &types.GetLeaveApprovedRequestsRequest{})
 	fmt.Println("-----------\n", res, "-----------")
