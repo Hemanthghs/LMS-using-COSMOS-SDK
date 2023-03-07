@@ -96,7 +96,7 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	return "Leave Status Updated"
 }
 
-func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) string {
+func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) *types.AcceptLeaveRequest {
 	store := ctx.KVStore(k.storeKey)
 	leaveCount := store.Get(types.StudentLeavesCounterKey(getLeaveStatus.LeaveID))
 	leaveid := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID, string(leaveCount)))
@@ -104,9 +104,10 @@ func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveSt
 	res := store.Get(types.AcceptLeaveStoreKey(string(leaveid)))
 	var leave types.AcceptLeaveRequest
 	k.cdc.Unmarshal(res, &leave)
-	fmt.Println(leave)
-	status := leave.Status.String()
-	return status
+	// fmt.Println(leave)
+	// status := leave.Status.String()
+	// return status
+	return &leave
 }
 
 func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) []*types.Student {

@@ -36,8 +36,10 @@ func (k Keeper) GetLeaveApprovedRequestsQuery(goCtx context.Context, req *types.
 
 func (k Keeper) GetLeaveStatusQuery(goCtx context.Context, req *types.GetLeaveStatusRequest) (*types.GetLeaveStatusResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetLeaveStatus(ctx, req)
-	return &types.GetLeaveStatusResponse{}, nil
+	res := k.GetLeaveStatus(ctx, req)
+	return &types.GetLeaveStatusResponse{
+		Leaverequest: res,
+	}, nil
 }
 
 func (k Keeper) GetAdmins(goCtx context.Context, req *types.GetAdminsRequest) (*types.GetAdminsResponse, error) {
