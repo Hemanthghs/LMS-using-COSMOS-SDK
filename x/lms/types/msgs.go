@@ -101,9 +101,10 @@ func (msg AddStudentRequest) ValidateBasic() error {
 
 //Apply Leave
 
-func NewApplyLeaveReq(accountAddr sdk.AccAddress, reason string, from *time.Time, to *time.Time) *ApplyLeaveRequest {
+func NewApplyLeaveReq(signerAddr sdk.AccAddress, accountAddr sdk.AccAddress, reason string, from *time.Time, to *time.Time) *ApplyLeaveRequest {
 	// panic("called 2")
 	return &ApplyLeaveRequest{
+		Signer:  signerAddr.String(),
 		Address: accountAddr.String(),
 		Reason:  reason,
 		From:    from,
@@ -124,7 +125,7 @@ func (msg ApplyLeaveRequest) GetSignBytes() []byte {
 }
 
 func (msg ApplyLeaveRequest) GetSigners() []sdk.AccAddress {
-	valAddr, _ := sdk.AccAddressFromBech32(msg.Address)
+	valAddr, _ := sdk.AccAddressFromBech32(msg.Signer)
 	// valAddr, _ := sdk.AccAddressFromBech32(msg.Address)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }

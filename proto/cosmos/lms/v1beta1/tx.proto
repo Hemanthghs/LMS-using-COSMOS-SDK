@@ -43,14 +43,16 @@ message AddStudentRequest {
 message AddStudentResponse{}
 
 message ApplyLeaveRequest {
+
+    string signer = 1;
     
-    string address = 1;
+    string address = 2;
     
-    string reason = 2;
+    string reason = 3;
     
-    google.protobuf.Timestamp from = 3 [(gogoproto.stdtime)=true];
+    google.protobuf.Timestamp from = 4 [(gogoproto.stdtime)=true];
     
-    google.protobuf.Timestamp to = 4 [(gogoproto.stdtime)=true];
+    google.protobuf.Timestamp to = 5 [(gogoproto.stdtime)=true];
 }
 
 message ApplyLeaveResponse {

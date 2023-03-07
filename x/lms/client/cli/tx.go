@@ -90,15 +90,17 @@ func NewApplyLeaveReqCmd() *cobra.Command {
 		Args:  cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
+			fromadd := clientCtx.GetFromAddress()
 			if err != nil {
 				panic(err)
 			}
+			Signer := fromadd
 			Address, _ := sdk.AccAddressFromBech32(args[0])
 			Reason := args[1]
 			format := "2006-Jan-06"
 			from, _ := time.Parse(format, args[2])
 			to, _ := time.Parse(format, args[3])
-			msg := types.NewApplyLeaveReq(Address, Reason, &from, &to)
+			msg := types.NewApplyLeaveReq(Signer, Address, Reason, &from, &to)
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
@@ -111,7 +113,7 @@ func NewAcceptLeaveReqCmd() *cobra.Command {
 		Use:   "acceptleave [Admin] [LeaveId] [Status]",
 		Short: "To accept a leave request",
 		Long:  "To accept a leave request",
-		Args:  cobra.ExactArgs(3),
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			fromadd := clientCtx.GetFromAddress()
