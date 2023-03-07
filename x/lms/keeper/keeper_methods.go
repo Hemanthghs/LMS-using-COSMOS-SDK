@@ -82,14 +82,21 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	store := ctx.KVStore(k.storeKey)
 	marshalAcceptLeave, err := k.cdc.Marshal(acceptLeave)
 	handleError(err)
-	leaveid := store.Get(types.StudentLeavesCounterKey(acceptLeave.LeaveId))
+	leaveCount := store.Get(types.StudentLeavesCounterKey(acceptLeave.LeaveId))
+	leaveid := store.Get(types.LeaveStoreKey(acceptLeave.LeaveId, string(leaveCount)))
 	store.Set(types.AcceptLeaveStoreKey(string(leaveid)), marshalAcceptLeave)
+	r := store.Get(types.AcceptLeaveStoreKey(string(leaveid)))
+	var res types.AcceptLeaveRequest
+	k.cdc.Unmarshal(r, &res)
+	// panic(res)
 	return "Leave Status Updated"
 }
 
 func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) string {
 	store := ctx.KVStore(k.storeKey)
-	leaveid := store.Get(types.StudentLeavesCounterKey(getLeaveStatus.LeaveID))
+	leaveCount := store.Get(types.StudentLeavesCounterKey(getLeaveStatus.LeaveID))
+	leaveid := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID, string(leaveCount)))
+
 	res := store.Get(types.AcceptLeaveStoreKey(string(leaveid)))
 	var leave types.AcceptLeaveRequest
 	k.cdc.Unmarshal(res, &leave)
@@ -124,12 +131,12 @@ func (k Keeper) GetLeaveRequests(ctx sdk.Context, getLeaveRequests *types.GetLea
 	return leaves
 }
 
-func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) []*types.ApplyLeaveRequest {
+func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) []*types.AcceptLeaveRequest {
 	store := ctx.KVStore(k.storeKey)
-	var t types.ApplyLeaveRequest
-	var approvedleaves []*types.ApplyLeaveRequest
+	var approvedleaves []*types.AcceptLeaveRequest
 	itr := sdk.KVStorePrefixIterator(store, types.AcceptLeaveKey)
 	for ; itr.Valid(); itr.Next() {
+		var t types.AcceptLeaveRequest
 		k.cdc.Unmarshal(itr.Value(), &t)
 		approvedleaves = append(approvedleaves, &t)
 	}

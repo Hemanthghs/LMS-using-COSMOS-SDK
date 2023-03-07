@@ -240,7 +240,8 @@ func (s *TestSuite) Test_AddStudent_ApplyLeave_AcceptLeave_GetLeaveStatus() {
 	}
 	res4 := s.stdntKeeper.GetLeaveStatus(s.ctx, &req4)
 	fmt.Println("Res 4:", res4)
-
+	res := s.stdntKeeper.GetLeaveApprovedRequests(s.ctx, &types.GetLeaveApprovedRequestsRequest{})
+	fmt.Println("-----------\n", res, "-----------")
 }
 
 func (s *TestSuite) TestGetStudents() {
@@ -258,8 +259,9 @@ func (s *TestSuite) TestGetLeaveRequests() {
 }
 
 func (s *TestSuite) TestGetLeaveApprovedRequests() {
-
-	s.stdntKeeper.GetLeaveApprovedRequests(s.ctx, &types.GetLeaveApprovedRequestsRequest{})
+	s.Test_AddStudent_ApplyLeave_AcceptLeave_GetLeaveStatus()
+	res := s.stdntKeeper.GetLeaveApprovedRequests(s.ctx, &types.GetLeaveApprovedRequestsRequest{})
+	fmt.Println("-----------\n", res, "-----------")
 }
 
 func TestTestSuite(t *testing.T) {
