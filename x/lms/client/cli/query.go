@@ -20,13 +20,14 @@ func NewQueryCmd() *cobra.Command {
 		GetLeaveRequestsCmd(),
 		GetLeaveApprovedRequestsCmd(),
 		GetLeaveStatusCmd(),
+		GetAdminsCmd(),
 	)
 	return txCmd
 }
 
 func GetStudentsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "getstudents",
+		Use:   "students",
 		Short: "To get the list of all students",
 		Long:  "To get the list of all students",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -49,7 +50,7 @@ func GetStudentsCmd() *cobra.Command {
 
 func GetLeaveRequestsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "getleaves",
+		Use:   "leaves",
 		Short: "To get the list of all the leave requets",
 		Long:  "To get the list of all the leave requests",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -72,7 +73,7 @@ func GetLeaveRequestsCmd() *cobra.Command {
 
 func GetLeaveStatusCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "getstatus [LeaveId]",
+		Use:   "status [LeaveId]",
 		Short: "To get the leave status",
 		Long:  "To get the leave status",
 		Args:  cobra.ExactArgs(1),
@@ -98,7 +99,7 @@ func GetLeaveStatusCmd() *cobra.Command {
 
 func GetLeaveApprovedRequestsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "getapproved",
+		Use:   "approved",
 		Short: "To get the list of approved leaves",
 		Long:  "To get the list of approved leaves",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -109,6 +110,29 @@ func GetLeaveApprovedRequestsCmd() *cobra.Command {
 			getLeavesRequest := &types.GetLeaveApprovedRequestsRequest{}
 			queryClient := types.NewQueryClient(clientCtx)
 			res, err := queryClient.GetLeaveApprovedRequestsQuery(cmd.Context(), getLeavesRequest)
+			if err != nil {
+				panic(err)
+			}
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+func GetAdminsCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "admins",
+		Short: "To get the list of all admins",
+		Long:  "To get the list of all admins",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				panic(err)
+			}
+			getAdminsRequest := &types.GetAdminsRequest{}
+			queryClient := types.NewQueryClient(clientCtx)
+			res, err := queryClient.GetAdmins(cmd.Context(), getAdminsRequest)
 			if err != nil {
 				panic(err)
 			}

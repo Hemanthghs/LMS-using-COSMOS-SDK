@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"log"
 	"time"
 
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
@@ -11,10 +10,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 )
-
-func handleError(err error) {
-	log.Fatal(err)
-}
 
 func NewTxCmd() *cobra.Command {
 	txCmd := &cobra.Command{
@@ -64,10 +59,12 @@ func NewAddStudentRequestCmd() *cobra.Command {
 		Long:  "This is used to add new students",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
+			fromadd := clientCtx.GetFromAddress()
 			if err != nil {
 				return err
 			}
-			adminaddress, _ := sdk.AccAddressFromBech32(args[0])
+			// adminaddress, _ := sdk.AccAddressFromBech32(args[0])
+			adminaddress := fromadd
 			students := []*types.Student{}
 			for i := 0; i < (len(args)-1)/3; i++ {
 				student := &types.Student{

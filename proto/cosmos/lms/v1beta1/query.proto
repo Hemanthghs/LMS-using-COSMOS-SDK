@@ -21,6 +21,9 @@ service Query {
     rpc GetLeaveStatusQuery(GetLeaveStatusRequest) returns (GetLeaveStatusResponse){
         option (google.api.http).get   = "/cosmos/lms/v1beta1/getstatus";
     };
+    rpc GetAdmins(GetAdminsRequest) returns (GetAdminsResponse) {
+        option (google.api.http).get = "/cosmos/lms/v1beta1/getadmin";
+    }
 }
 
 message GetStudentsRequest {
@@ -53,4 +56,12 @@ message GetLeaveStatusResponse {
 
 message GetLeaveStatusRequest {
     string leaveID = 1;
+}
+
+message GetAdminsRequest {
+
+}
+
+message GetAdminsResponse {
+    repeated RegisterAdminRequest admins = 1;
 }

@@ -20,8 +20,10 @@ func (k Keeper) GetStudentsQuery(goCtx context.Context, req *types.GetStudentsRe
 
 func (k Keeper) GetLeaveRequestsQuery(goCtx context.Context, req *types.GetLeaveRequestsRequest) (*types.GetLeaveRequestsResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetLeaveRequests(ctx, req)
-	return &types.GetLeaveRequestsResponse{}, nil
+	res := k.GetLeaveRequests(ctx, req)
+	return &types.GetLeaveRequestsResponse{
+		Leaverequests: res,
+	}, nil
 }
 
 func (k Keeper) GetLeaveApprovedRequestsQuery(goCtx context.Context, req *types.GetLeaveApprovedRequestsRequest) (*types.GetLeaveApprovedRequestsResponse, error) {
@@ -34,4 +36,12 @@ func (k Keeper) GetLeaveStatusQuery(goCtx context.Context, req *types.GetLeaveSt
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	k.GetLeaveStatus(ctx, req)
 	return &types.GetLeaveStatusResponse{}, nil
+}
+
+func (k Keeper) GetAdmins(goCtx context.Context, req *types.GetAdminsRequest) (*types.GetAdminsResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	res := k.GetAdminsRequest(ctx, req)
+	return &types.GetAdminsResponse{
+		Admins: res,
+	}, nil
 }
