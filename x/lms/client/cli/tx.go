@@ -30,10 +30,11 @@ func NewTxCmd() *cobra.Command {
 
 func NewRegisterAdminCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "registeradmin [name] [address]",
-		Short: "To register new admin",
-		Long:  "To register new admin",
-		Args:  cobra.ExactArgs(2),
+		Use:     "registeradmin [name] [address]",
+		Short:   "To register new admin",
+		Long:    "To register new admin",
+		Example: "./simd tx leave registeradmin admin1 cosmos1111 --from validator-key --chain-id testnet",
+		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -54,9 +55,10 @@ func NewRegisterAdminCmd() *cobra.Command {
 
 func NewAddStudentRequestCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "addstudents",
-		Short: "This is used to add new students",
-		Long:  "This is used to add new students",
+		Use:     "addstudents",
+		Short:   "This is used to add new students",
+		Long:    "This is used to add new students",
+		Example: "./simd tx leave addstudents student1 1 cosmos1231212 --from validator-key --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			fromadd := clientCtx.GetFromAddress()
@@ -84,10 +86,11 @@ func NewAddStudentRequestCmd() *cobra.Command {
 
 func NewApplyLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "applyleave [Address] [Reason] [from] [to]",
-		Short: "To apply for a leave",
-		Long:  "To apply for a leave",
-		Args:  cobra.ExactArgs(4),
+		Use:     "applyleave [Address] [Reason] [from] [to]",
+		Short:   "To apply for a leave",
+		Long:    "To apply for a leave",
+		Example: "./simd tx leave applyleave cosmos12123 Fever 2023-Mar-01 2023-Mar-03 --from validator-key --chain-id testnet",
+		Args:    cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			fromadd := clientCtx.GetFromAddress()
@@ -110,10 +113,11 @@ func NewApplyLeaveReqCmd() *cobra.Command {
 
 func NewAcceptLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "acceptleave [Admin] [LeaveId] [Status]",
-		Short: "To accept a leave request",
-		Long:  "To accept a leave request",
-		Args:  cobra.ExactArgs(2),
+		Use:     "acceptleave [LeaveId] [Status]",
+		Short:   "To accept a leave request",
+		Long:    "To accept a leave request",
+		Example: "./simd tx leave acceptleave cosmos1231212 1 --from validator-key --chain-id testnet",
+		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			fromadd := clientCtx.GetFromAddress()

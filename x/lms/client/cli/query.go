@@ -27,9 +27,10 @@ func NewQueryCmd() *cobra.Command {
 
 func GetStudentsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "students",
-		Short: "To get the list of all students",
-		Long:  "To get the list of all students",
+		Use:     "students",
+		Short:   "To get the list of all students",
+		Long:    "To get the list of all students",
+		Example: "./simd query leave students",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -50,9 +51,10 @@ func GetStudentsCmd() *cobra.Command {
 
 func GetLeaveRequestsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "leaves",
-		Short: "To get the list of all the leave requets",
-		Long:  "To get the list of all the leave requests",
+		Use:     "leaves",
+		Short:   "To get the list of all the leave requets",
+		Long:    "To get the list of all the leave requests",
+		Example: "./simd query leave leaves",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -73,10 +75,11 @@ func GetLeaveRequestsCmd() *cobra.Command {
 
 func GetLeaveStatusCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "status [LeaveId]",
-		Short: "To get the leave status",
-		Long:  "To get the leave status",
-		Args:  cobra.ExactArgs(1),
+		Use:     "status [LeaveId]",
+		Short:   "To get the leave status",
+		Long:    "To get the leave status",
+		Example: "./simd query leave status cosmos123123",
+		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -99,9 +102,10 @@ func GetLeaveStatusCmd() *cobra.Command {
 
 func GetLeaveApprovedRequestsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "approved",
-		Short: "To get the list of approved leaves",
-		Long:  "To get the list of approved leaves",
+		Use:     "approved",
+		Short:   "To get the list of approved leaves",
+		Long:    "To get the list of approved leaves",
+		Example: "./simd query leave approved",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -122,9 +126,10 @@ func GetLeaveApprovedRequestsCmd() *cobra.Command {
 
 func GetAdminsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "admins",
-		Short: "To get the list of all admins",
-		Long:  "To get the list of all admins",
+		Use:     "admins",
+		Short:   "To get the list of all admins",
+		Long:    "To get the list of all admins",
+		Example: "./simd query leave admins",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
