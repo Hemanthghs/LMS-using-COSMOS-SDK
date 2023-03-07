@@ -38,16 +38,20 @@ func (k Keeper) GetAdmin(ctx sdk.Context, id string) {
 	fmt.Println(v)
 }
 
-func (k Keeper) AddStudent(ctx sdk.Context, addStudent *types.AddStudentRequest) string {
+func (k Keeper) AddStudent(ctx sdk.Context, addStudent *types.AddStudentRequest) error {
 	students := addStudent.Students
 	store := ctx.KVStore(k.storeKey)
+	admin := store.Get(types.AdminStoreKey(addStudent.Admin))
+	if admin == nil {
+		return types.ErrAdminNotRegistered
+	}
 	for _, stud := range students {
 		marshalAddStudent, err := k.cdc.Marshal(stud)
 		handleError(err)
 		store.Set(types.StudentStoreKey(stud.Address), marshalAddStudent)
 		k.GetStudent(ctx, sdk.AccAddress("lms1").String())
 	}
-	return "Students Added Successfully"
+	return nil
 }
 
 func (k Keeper) GetStudent(ctx sdk.Context, id string) {

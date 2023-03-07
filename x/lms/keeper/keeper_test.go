@@ -121,6 +121,7 @@ func (s *TestSuite) TestRegisterAdmin() {
 ///////////////////// Add Student Tests ////////////////////////
 
 func (s *TestSuite) TestAddStudent() {
+	s.TestRegisterAdmin()
 	students := []*types.Student{
 		{
 			Address: sdk.AccAddress("lms1").String(),
@@ -142,7 +143,8 @@ func (s *TestSuite) TestAddStudent() {
 		Admin:    "Hemanthsai",
 		Students: students,
 	}
-	s.stdntKeeper.AddStudent(s.ctx, &req)
+	e := s.stdntKeeper.AddStudent(s.ctx, &req)
+	fmt.Println(e)
 }
 
 //////////////////// Apply Leave Tests ////////////////////////
