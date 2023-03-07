@@ -62,6 +62,7 @@ func (k Keeper) GetStudent(ctx sdk.Context, id string) {
 
 func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest) string {
 	store := ctx.KVStore(k.storeKey)
+	applyLeave.Status = types.LeaveStatus_STATUS_UNDEFINED
 	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
 	handleError(err)
 	addr := types.StudentLeavesCounterKey(applyLeave.Address)

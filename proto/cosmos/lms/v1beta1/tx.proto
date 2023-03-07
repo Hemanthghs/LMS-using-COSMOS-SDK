@@ -53,6 +53,8 @@ message ApplyLeaveRequest {
     google.protobuf.Timestamp from = 4 [(gogoproto.stdtime)=true];
     
     google.protobuf.Timestamp to = 5 [(gogoproto.stdtime)=true];
+
+    LeaveStatus status = 6;
 }
 
 message ApplyLeaveResponse {
