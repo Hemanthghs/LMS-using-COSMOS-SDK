@@ -1,7 +1,7 @@
 package types
 
 const (
-	ModuleName   = "lms"
+	ModuleName   = "leave"
 	StoreKey     = ModuleName
 	RouterKey    = ModuleName
 	QuerierRoute = ModuleName
