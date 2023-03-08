@@ -33,7 +33,7 @@ func NewRegisterAdminCmd() *cobra.Command {
 		Use:     "registeradmin [name] [address]",
 		Short:   "To register new admin",
 		Long:    "To register new admin",
-		Example: "./simd tx leave registeradmin admin1 cosmos1111 --from validator-key --chain-id testnet",
+		Example: "./lmsd tx leave registeradmin admin1 cosmos1111 --from validator-key --chain-id testnet",
 		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -58,7 +58,7 @@ func NewAddStudentRequestCmd() *cobra.Command {
 		Use:     "addstudents",
 		Short:   "This is used to add new students",
 		Long:    "This is used to add new students",
-		Example: "./simd tx leave addstudents student1 1 cosmos1231212 --from validator-key --chain-id testnet",
+		Example: "./lmsd tx leave addstudents student1 1 cosmos1231212 --from validator-key --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			fromadd := clientCtx.GetFromAddress()
@@ -89,7 +89,7 @@ func NewApplyLeaveReqCmd() *cobra.Command {
 		Use:     "applyleave [Address] [Reason] [from] [to]",
 		Short:   "To apply for a leave",
 		Long:    "To apply for a leave",
-		Example: "./simd tx leave applyleave cosmos12123 Fever 2023-Mar-01 2023-Mar-03 --from validator-key --chain-id testnet",
+		Example: "./lmsd tx leave applyleave cosmos12123 Fever 2023-Mar-01 2023-Mar-03 --from validator-key --chain-id testnet",
 		Args:    cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -100,7 +100,7 @@ func NewApplyLeaveReqCmd() *cobra.Command {
 			Signer := fromadd
 			Address, _ := sdk.AccAddressFromBech32(args[0])
 			Reason := args[1]
-			format := "2006-Jan-06"
+			format := "2006-Jan-02"
 			from, _ := time.Parse(format, args[2])
 			to, _ := time.Parse(format, args[3])
 			msg := types.NewApplyLeaveReq(Signer, Address, Reason, &from, &to)
@@ -116,7 +116,7 @@ func NewAcceptLeaveReqCmd() *cobra.Command {
 		Use:     "acceptleave [LeaveId] [Status]",
 		Short:   "To accept a leave request",
 		Long:    "To accept a leave request",
-		Example: "./simd tx leave acceptleave cosmos1231212 1 --from validator-key --chain-id testnet",
+		Example: "./lmsd tx leave acceptleave cosmos1231212 1 --from validator-key --chain-id testnet",
 		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)

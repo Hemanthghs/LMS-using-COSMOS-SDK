@@ -152,7 +152,7 @@ func (s *TestSuite) TestAddStudent() {
 func (s *TestSuite) TestApplyLeave() {
 	type applyLeaveTest struct {
 		arg1     types.ApplyLeaveRequest
-		expected string
+		expected error
 	}
 	dateString := "2006-Jan-02"
 	fromDate, _ := time.Parse(dateString, "2023-Feb-22")
@@ -165,7 +165,7 @@ func (s *TestSuite) TestApplyLeave() {
 				From:    &fromDate,
 				To:      &toDate,
 			},
-			expected: "Leave Applied Successfully",
+			expected: nil,
 		},
 		{
 			arg1: types.ApplyLeaveRequest{
@@ -174,7 +174,7 @@ func (s *TestSuite) TestApplyLeave() {
 				From:    &fromDate,
 				To:      &toDate,
 			},
-			expected: "Leave Applied Successfully",
+			expected: nil,
 		},
 	}
 	require := s.Require()
