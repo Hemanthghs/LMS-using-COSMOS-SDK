@@ -51,7 +51,7 @@ message GetLeaveApprovedRequestsResponse {
 }
 
 message GetLeaveStatusResponse {
-    AcceptLeaveRequest leaverequest = 1;
+    ApplyLeaveRequest leaverequest = 1;
 }
 
 message GetLeaveStatusRequest {

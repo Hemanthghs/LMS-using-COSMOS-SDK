@@ -23,7 +23,6 @@ func (k Keeper) RegisterAdmin(ctx sdk.Context, registerAdmin *types.RegisterAdmi
 		return types.ErrAdminAddressNil
 	} else {
 		store := ctx.KVStore(k.storeKey)
-		// panic("hello")
 		marshalRegisterAdmin, err := k.cdc.Marshal(registerAdmin)
 		handleError(err)
 		store.Set(types.AdminStoreKey(registerAdmin.Address), marshalRegisterAdmin)
@@ -105,20 +104,13 @@ func (k Keeper) AcceptLeave(ctx sdk.Context, acceptLeave *types.AcceptLeaveReque
 	return nil
 }
 
-func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) (*types.AcceptLeaveRequest, error) {
+func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveStatusRequest) (*types.ApplyLeaveRequest, error) {
 	store := ctx.KVStore(k.storeKey)
 	leaveCount := store.Get(types.StudentLeavesCounterKey(getLeaveStatus.LeaveID))
-	leaveid := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID, string(leaveCount)))
 
-	res := store.Get(types.AcceptLeaveStoreKey(string(leaveid)))
-	if res == nil {
-		return nil, types.ErrLeaveNotFound
-	}
-	var leave types.AcceptLeaveRequest
+	res := store.Get(types.LeaveStoreKey(getLeaveStatus.LeaveID, string(leaveCount)))
+	var leave types.ApplyLeaveRequest
 	k.cdc.Unmarshal(res, &leave)
-	// fmt.Println(leave)
-	// status := leave.Status.String()
-	// return status
 	return &leave, nil
 }
 
@@ -157,7 +149,6 @@ func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedReques
 		k.cdc.Unmarshal(itr.Value(), &t)
 		approvedleaves = append(approvedleaves, &t)
 	}
-	// panic(approvedleaves)
 	return approvedleaves
 }
 
@@ -170,6 +161,5 @@ func (k Keeper) GetAdminsRequest(ctx sdk.Context, getLeaveRequests *types.GetAdm
 		k.cdc.Unmarshal(itr.Value(), &t)
 		admins = append(admins, &t)
 	}
-	// panic(leaves)
 	return admins
 }
