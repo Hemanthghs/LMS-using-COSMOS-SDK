@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package cosmos.lms.v1beta1;
+
+option go_package = "x/lms/types";
+
+import "cosmos/lms/v1beta1/tx.proto";
+import "google/api/annotations.proto" ; 
+
+
+service Query {
+    rpc GetStudentsQuery(GetStudentsRequest) returns (GetStudentsResponse){
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/studentid";
+    };
+    rpc GetLeaveRequestsQuery(GetLeaveRequestsRequest) returns (GetLeaveRequestsResponse){
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/leaveid";
+    };
+    rpc GetLeaveApprovedRequestsQuery(GetLeaveApprovedRequestsRequest) returns (GetLeaveApprovedRequestsResponse){
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/leaveid";
+    };
+    rpc GetLeaveStatusQuery(GetLeaveStatusRequest) returns (GetLeaveStatusResponse){
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/leaveid";
+    };
+}
+
+message GetStudentsRequest {
+
+}
+
+message GetStudentsResponse {
+    repeated Student students = 1;
+}
+
+message GetLeaveRequestsRequest {
+    
+}
+
+message GetLeaveRequestsResponse {
+    repeated ApplyLeaveRequest leaverequests = 1;
+}
+
+message GetLeaveApprovedRequestsRequest {
+    
+}
+
+message GetLeaveApprovedRequestsResponse {
+    repeated ApplyLeaveRequest leaverequests = 1;
+}
+
+message GetLeaveStatusResponse {
+    ApplyLeaveRequest leaverequest = 1;
+}
+
+message GetLeaveStatusRequest {
+    string leaveID = 1;
+}

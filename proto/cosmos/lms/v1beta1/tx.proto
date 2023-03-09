@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package cosmos.lms.v1beta1;
+
+option go_package = "x/lms/types";
+
+import "google/protobuf/timestamp.proto";
+
+import "gogoproto/gogo.proto";
+
+service Msg {
+    // RegisterAdmin adds a new admin
+    rpc RegisterAdmin(RegisterAdminRequest) returns (RegisterAdminResponse){};
+    
+    // AddStudent adds new student
+    rpc AddStudent(AddStudentRequest) returns (AddStudentResponse){};
+    
+    // ApplyLeave request a new leave
+    rpc ApplyLeave(ApplyLeaveRequest) returns (ApplyLeaveResponse){};
+    
+    // AcceptLeave accept or reject a leave
+    rpc AcceptLeave(AcceptLeaveRequest) returns (AcceptLeaveResponse){};
+}
+
+message RegisterAdminRequest {
+    // address is the account address of the admin.
+    string address = 1;
+    
+    // name is the admin name
+    string name = 2;
+}
+
+message RegisterAdminResponse{}
+
+message AddStudentRequest {
+    // admin is the account address of the admin
+    string admin = 1;
+    
+    // students is the list of Student.
+    repeated Student students = 2;
+}
+
+message AddStudentResponse{}
+
+message ApplyLeaveRequest {
+    
+    string address = 1;
+    
+    string reason = 2;
+    
+    google.protobuf.Timestamp from = 3 [(gogoproto.stdtime)=true];
+    
+    google.protobuf.Timestamp to = 4 [(gogoproto.stdtime)=true];
+}
+
+message ApplyLeaveResponse {
+
+}
+
+enum LeaveStatus {
+    STATUS_UNDEFINED = 0;
+    
+    STATUS_ACCEPTED = 1;
+    
+    STATUS_REJECTED = 2;
+}
+
+message AcceptLeaveRequest {
+
+    string admin = 1;
+    
+    string leave_id = 2;
+    
+    LeaveStatus status = 3;
+}
+
+message AcceptLeaveResponse {
+
+}
+
+message Student {
+    // address is the account address of the student.
+    string address = 1;
+    
+    // name is the student name.
+    string name = 2;
+    
+    // id is a unique student id.
+    string id = 3;
+}
+
+
+

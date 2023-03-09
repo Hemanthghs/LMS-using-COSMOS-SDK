@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cosmos.lms.v1beta1;
+
+option go_package = "x/lms/types";
+
+import "cosmos/lms/v1beta1/tx.proto";
+import "gogoproto/gogo.proto";
+
+message GenesisState{
+    repeated Student student=1 ;
+    repeated AcceptLeaveRequest admin=2 [(gogoproto.nullable) = false];
+    repeated ApplyLeaveRequest applyleave=3 [(gogoproto.nullable) = false];
+    repeated RegisterAdminRequest acceptleave=4 [(gogoproto.nullable) = false];
+}
