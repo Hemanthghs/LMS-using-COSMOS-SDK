@@ -23,6 +23,7 @@ func (k Keeper) RegisterAdmin(ctx sdk.Context, registerAdmin *types.RegisterAdmi
 		return types.ErrAdminAddressNil
 	} else {
 		store := ctx.KVStore(k.storeKey)
+		// panic("hello")
 		marshalRegisterAdmin, err := k.cdc.Marshal(registerAdmin)
 		handleError(err)
 		store.Set(types.AdminStoreKey(registerAdmin.Address), marshalRegisterAdmin)
@@ -59,7 +60,8 @@ func (k Keeper) ApplyLeave(ctx sdk.Context, applyLeave *types.ApplyLeaveRequest)
 	store := ctx.KVStore(k.storeKey)
 	marshalApplyLeave, err := k.cdc.Marshal(applyLeave)
 	handleError(err)
-	addr := types.StudentLeavesCounterKey(sdk.AccAddress(string(applyLeave.Address)).String())
+	addr := types.StudentLeavesCounterKey(applyLeave.Address)
+	// addr := types.StudentLeavesCounterKey(sdk.AccAddress(string(applyLeave.Address)).String())
 	counter := store.Get(addr)
 	if counter == nil {
 		store.Set(addr, []byte("1"))
@@ -96,32 +98,39 @@ func (k Keeper) GetLeaveStatus(ctx sdk.Context, getLeaveStatus *types.GetLeaveSt
 	return status
 }
 
-func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) {
+func (k Keeper) GetStudents(ctx sdk.Context, getStudents *types.GetStudentsRequest) []*types.Student {
 	store := ctx.KVStore(k.storeKey)
-	var t types.Student
-	itr := store.Iterator(types.StudentKey, nil)
+
+	var students []*types.Student
+	itr := sdk.KVStorePrefixIterator(store, types.StudentKey)
 	for ; itr.Valid(); itr.Next() {
+		var t types.Student
 		k.cdc.Unmarshal(itr.Value(), &t)
-		fmt.Println(t)
+		students = append(students, &t)
 	}
+	return students
 }
 
-func (k Keeper) GetLeaveRequests(ctx sdk.Context, getLeaveRequests *types.GetLeaveRequestsRequest) {
+func (k Keeper) GetLeaveRequests(ctx sdk.Context, getLeaveRequests *types.GetLeaveRequestsRequest) []types.ApplyLeaveRequest {
 	store := ctx.KVStore(k.storeKey)
 	var t types.ApplyLeaveRequest
-	itr := store.Iterator(types.LeaveKey, nil)
+	var leaves []types.ApplyLeaveRequest
+	itr := sdk.KVStorePrefixIterator(store, types.LeaveKey)
 	for ; itr.Valid(); itr.Next() {
 		k.cdc.Unmarshal(itr.Value(), &t)
-		fmt.Println(t)
+		leaves = append(leaves, t)
 	}
+	return leaves
 }
 
-func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) {
+func (k Keeper) GetLeaveApprovedRequests(ctx sdk.Context, getLeaveApprovedRequests *types.GetLeaveApprovedRequestsRequest) []types.ApplyLeaveRequest {
 	store := ctx.KVStore(k.storeKey)
 	var t types.ApplyLeaveRequest
+	var approvedleaves []types.ApplyLeaveRequest
 	itr := store.Iterator(types.AcceptLeaveKey, nil)
 	for ; itr.Valid(); itr.Next() {
 		k.cdc.Unmarshal(itr.Value(), &t)
-		fmt.Println(t)
+		approvedleaves = append(approvedleaves, t)
 	}
+	return approvedleaves
 }

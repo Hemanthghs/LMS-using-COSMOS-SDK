@@ -346,13 +346,13 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_GetStudentsQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "studentid"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetStudentsQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "getstudent"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetLeaveRequestsQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "leaveid"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetLeaveRequestsQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "getleave"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetLeaveApprovedRequestsQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "leaveid"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetLeaveApprovedRequestsQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "getapproved"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetLeaveStatusQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "leaveid"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetLeaveStatusQuery_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmos", "lms", "v1beta1", "getstatus"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (

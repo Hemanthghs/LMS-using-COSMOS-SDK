@@ -10,16 +10,16 @@ import "gogoproto/gogo.proto";
 
 service Msg {
     // RegisterAdmin adds a new admin
-    rpc RegisterAdmin(RegisterAdminRequest) returns (RegisterAdminResponse){};
+    rpc AdminRegister(RegisterAdminRequest) returns (RegisterAdminResponse){};
     
     // AddStudent adds new student
-    rpc AddStudent(AddStudentRequest) returns (AddStudentResponse){};
+    rpc AddStudents(AddStudentRequest) returns (AddStudentResponse){};
     
     // ApplyLeave request a new leave
-    rpc ApplyLeave(ApplyLeaveRequest) returns (ApplyLeaveResponse){};
+    rpc LeaveApply(ApplyLeaveRequest) returns (ApplyLeaveResponse){};
     
     // AcceptLeave accept or reject a leave
-    rpc AcceptLeave(AcceptLeaveRequest) returns (AcceptLeaveResponse){};
+    rpc LeaveAccept(AcceptLeaveRequest) returns (AcceptLeaveResponse){};
 }
 
 message RegisterAdminRequest {
