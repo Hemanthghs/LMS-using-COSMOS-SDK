@@ -244,8 +244,11 @@ func (s *TestSuite) Test_AddStudent_ApplyLeave_AcceptLeave_GetLeaveStatus() {
 }
 
 func (s *TestSuite) TestGetStudents() {
+	s.TestRegisterAdmin()
 	s.TestAddStudent()
-	s.stdntKeeper.GetStudents(s.ctx, &types.GetStudentsRequest{})
+	res := s.stdntKeeper.GetStudents(s.ctx, &types.GetStudentsRequest{})
+	fmt.Println("Get Students Response: ")
+	fmt.Println(res)
 }
 
 func (s *TestSuite) TestGetLeaveRequests() {
