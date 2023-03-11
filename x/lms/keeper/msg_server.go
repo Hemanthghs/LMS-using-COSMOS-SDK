@@ -40,6 +40,6 @@ func (k Keeper) AdminRegister(ctx context.Context, req *types.RegisterAdminReque
 
 func (k Keeper) LeaveAccept(ctx context.Context, req *types.AcceptLeaveRequest) (*types.AcceptLeaveResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	k.AcceptLeave(sdkCtx, req)
-	return &types.AcceptLeaveResponse{}, nil
+	err := k.AcceptLeave(sdkCtx, req)
+	return &types.AcceptLeaveResponse{}, err
 }

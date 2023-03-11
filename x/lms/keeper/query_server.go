@@ -20,18 +20,32 @@ func (k Keeper) GetStudentsQuery(goCtx context.Context, req *types.GetStudentsRe
 
 func (k Keeper) GetLeaveRequestsQuery(goCtx context.Context, req *types.GetLeaveRequestsRequest) (*types.GetLeaveRequestsResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetLeaveRequests(ctx, req)
-	return &types.GetLeaveRequestsResponse{}, nil
+	res := k.GetLeaveRequests(ctx, req)
+	return &types.GetLeaveRequestsResponse{
+		Leaverequests: res,
+	}, nil
 }
 
 func (k Keeper) GetLeaveApprovedRequestsQuery(goCtx context.Context, req *types.GetLeaveApprovedRequestsRequest) (*types.GetLeaveApprovedRequestsResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetLeaveApprovedRequests(ctx, req)
-	return &types.GetLeaveApprovedRequestsResponse{}, nil
+	res := k.GetLeaveApprovedRequests(ctx, req)
+	return &types.GetLeaveApprovedRequestsResponse{
+		Leaverequests: res,
+	}, nil
 }
 
 func (k Keeper) GetLeaveStatusQuery(goCtx context.Context, req *types.GetLeaveStatusRequest) (*types.GetLeaveStatusResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	k.GetLeaveStatus(ctx, req)
-	return &types.GetLeaveStatusResponse{}, nil
+	res, err := k.GetLeaveStatus(ctx, req)
+	return &types.GetLeaveStatusResponse{
+		Leaverequest: res,
+	}, err
+}
+
+func (k Keeper) GetAdmins(goCtx context.Context, req *types.GetAdminsRequest) (*types.GetAdminsResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	res := k.GetAdminsRequest(ctx, req)
+	return &types.GetAdminsResponse{
+		Admins: res,
+	}, nil
 }

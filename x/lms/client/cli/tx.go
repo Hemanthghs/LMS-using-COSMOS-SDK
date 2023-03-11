@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"log"
 	"time"
 
 	"github.com/Leave-Management-System/lms-cosmos/x/lms/types"
@@ -11,10 +10,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 )
-
-func handleError(err error) {
-	log.Fatal(err)
-}
 
 func NewTxCmd() *cobra.Command {
 	txCmd := &cobra.Command{
@@ -35,10 +30,11 @@ func NewTxCmd() *cobra.Command {
 
 func NewRegisterAdminCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "registeradmin [name] [address]",
-		Short: "To register new admin",
-		Long:  "To register new admin",
-		Args:  cobra.ExactArgs(2),
+		Use:     "registeradmin [name] [address]",
+		Short:   "To register new admin",
+		Long:    "To register new admin",
+		Example: "./lmsd tx leave registeradmin admin1 cosmos1111 --from validator-key --chain-id testnet",
+		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -59,21 +55,24 @@ func NewRegisterAdminCmd() *cobra.Command {
 
 func NewAddStudentRequestCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "addstudents",
-		Short: "This is used to add new students",
-		Long:  "This is used to add new students",
+		Use:     "addstudents",
+		Short:   "This is used to add new students",
+		Long:    "This is used to add new students",
+		Example: "./lmsd tx leave addstudents student1 1 cosmos1231212 --from validator-key --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
+			fromadd := clientCtx.GetFromAddress()
 			if err != nil {
 				return err
 			}
-			adminaddress, _ := sdk.AccAddressFromBech32(args[0])
+			// adminaddress, _ := sdk.AccAddressFromBech32(args[0])
+			adminaddress := fromadd
 			students := []*types.Student{}
-			for i := 0; i < (len(args)-1)/3; i++ {
+			for i := 0; i < (len(args))/3; i++ {
 				student := &types.Student{
-					Name:    args[3*i+1],
-					Id:      args[3*i+2],
-					Address: args[3*i+3],
+					Name:    args[3*i],
+					Id:      args[3*i+1],
+					Address: args[3*i+2],
 				}
 				students = append(students, student)
 			}
@@ -87,21 +86,24 @@ func NewAddStudentRequestCmd() *cobra.Command {
 
 func NewApplyLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "applyleave [Address] [Reason] [from] [to]",
-		Short: "To apply for a leave",
-		Long:  "To apply for a leave",
-		Args:  cobra.ExactArgs(4),
+		Use:     "applyleave [Address] [Reason] [from] [to]",
+		Short:   "To apply for a leave",
+		Long:    "To apply for a leave",
+		Example: "./lmsd tx leave applyleave cosmos12123 Fever 2023-Mar-01 2023-Mar-03 --from validator-key --chain-id testnet",
+		Args:    cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
+			fromadd := clientCtx.GetFromAddress()
 			if err != nil {
 				panic(err)
 			}
+			Signer := fromadd
 			Address, _ := sdk.AccAddressFromBech32(args[0])
 			Reason := args[1]
-			format := "2006-Jan-06"
+			format := "2006-Jan-02"
 			from, _ := time.Parse(format, args[2])
 			to, _ := time.Parse(format, args[3])
-			msg := types.NewApplyLeaveReq(Address, Reason, &from, &to)
+			msg := types.NewApplyLeaveReq(Signer, Address, Reason, &from, &to)
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
@@ -111,20 +113,24 @@ func NewApplyLeaveReqCmd() *cobra.Command {
 
 func NewAcceptLeaveReqCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "acceptleave [Admin] [LeaveId] [Status]",
-		Short: "To accept a leave request",
-		Long:  "To accept a leave request",
-		Args:  cobra.ExactArgs(3),
+		Use:     "acceptleave [LeaveId] [Status]",
+		Short:   "To accept a leave request",
+		Long:    "To accept a leave request",
+		Example: "./lmsd tx leave acceptleave cosmos1231212 1 --from validator-key --chain-id testnet",
+		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCxt, err := client.GetClientTxContext(cmd)
+			clientCtx, err := client.GetClientTxContext(cmd)
+			fromadd := clientCtx.GetFromAddress()
+
 			if err != nil {
 				panic(err)
 			}
-			Admin := args[0]
-			LeaveId := args[1]
-			Status := args[2]
-			msg := types.NewAcceptLeaveReq(sdk.AccAddress(Admin), LeaveId, Status)
-			return tx.GenerateOrBroadcastTxCLI(clientCxt, cmd.Flags(), msg)
+			// Admin := args[0]
+			Admin := fromadd
+			LeaveId := args[0]
+			Status := args[1]
+			msg := types.NewAcceptLeaveReq(Admin, LeaveId, Status)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 	flags.AddTxFlagsToCmd(cmd)
