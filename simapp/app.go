@@ -104,6 +104,23 @@ import (
 
 	lms "github.com/Leave-Management-System/lms-cosmos/x/lms/module"
 
+	ica "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts"
+	icacontrollertypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/types"
+	icahostkeeper "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/keeper"
+	icahosttypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types"
+	ibcfee "github.com/cosmos/ibc-go/v5/modules/apps/29-fee"
+	ibcfeekeeper "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/keeper"
+	ibcfeetypes "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/types"
+	ibctransfer "github.com/cosmos/ibc-go/v5/modules/apps/transfer"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v5/modules/apps/transfer/keeper"
+	ibctransfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
+	ibc "github.com/cosmos/ibc-go/v5/modules/core"
+	ibcclienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	ibcchanneltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
+	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
+	ibchost "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	ibckeeper "github.com/cosmos/ibc-go/v5/modules/core/keeper"
+
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
 )
@@ -139,6 +156,10 @@ var (
 		vesting.AppModuleBasic{},
 		nftmodule.AppModuleBasic{},
 		lms.AppModuleBasic{},
+		ibc.AppModuleBasic{},
+		ibctransfer.AppModuleBasic{},
+		ica.AppModuleBasic{},
+		ibcfee.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -150,6 +171,8 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		nft.ModuleName:                 nil,
+		ibcfeetypes.ModuleName:         nil,
+		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -175,23 +198,27 @@ type SimApp struct {
 	memKeys map[string]*storetypes.MemoryStoreKey
 
 	// keepers
-	AccountKeeper    authkeeper.AccountKeeper
-	BankKeeper       bankkeeper.Keeper
-	CapabilityKeeper *capabilitykeeper.Keeper
-	StakingKeeper    stakingkeeper.Keeper
-	SlashingKeeper   slashingkeeper.Keeper
-	MintKeeper       mintkeeper.Keeper
-	DistrKeeper      distrkeeper.Keeper
-	GovKeeper        govkeeper.Keeper
-	CrisisKeeper     crisiskeeper.Keeper
-	UpgradeKeeper    upgradekeeper.Keeper
-	ParamsKeeper     paramskeeper.Keeper
-	AuthzKeeper      authzkeeper.Keeper
-	EvidenceKeeper   evidencekeeper.Keeper
-	FeeGrantKeeper   feegrantkeeper.Keeper
-	GroupKeeper      groupkeeper.Keeper
-	NFTKeeper        nftkeeper.Keeper
-	LmsKeeper        lmskeeper.Keeper
+	AccountKeeper     authkeeper.AccountKeeper
+	BankKeeper        bankkeeper.Keeper
+	CapabilityKeeper  *capabilitykeeper.Keeper
+	StakingKeeper     stakingkeeper.Keeper
+	SlashingKeeper    slashingkeeper.Keeper
+	MintKeeper        mintkeeper.Keeper
+	DistrKeeper       distrkeeper.Keeper
+	GovKeeper         govkeeper.Keeper
+	CrisisKeeper      crisiskeeper.Keeper
+	UpgradeKeeper     upgradekeeper.Keeper
+	ParamsKeeper      paramskeeper.Keeper
+	AuthzKeeper       authzkeeper.Keeper
+	EvidenceKeeper    evidencekeeper.Keeper
+	FeeGrantKeeper    feegrantkeeper.Keeper
+	GroupKeeper       groupkeeper.Keeper
+	NFTKeeper         nftkeeper.Keeper
+	LmsKeeper         lmskeeper.Keeper
+	IBCKeeper         *ibckeeper.Keeper
+	ICAHostKeeper     icahostkeeper.Keeper
+	IBCFeeKeeper      ibcfeekeeper.Keeper
+	IBCTransferKeeper ibctransferkeeper.Keeper
 
 	// the module manager
 	mm *module.Manager
@@ -200,7 +227,12 @@ type SimApp struct {
 	sm *module.SimulationManager
 
 	// module configurator
-	configurator module.Configurator
+	configurator              module.Configurator
+	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
+	ScopedIBCTransferKeeper   capabilitykeeper.ScopedKeeper
+	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
+	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
+	ScopedInterTxKeeper       capabilitykeeper.ScopedKeeper
 }
 
 func init() {
@@ -210,6 +242,14 @@ func init() {
 	}
 
 	DefaultNodeHome = filepath.Join(userHomeDir, ".simapp")
+}
+
+func GetDefaultBypassFeeMessages() []string {
+	return []string{
+		sdk.MsgTypeURL(&ibcchanneltypes.MsgRecvPacket{}),
+		sdk.MsgTypeURL(&ibcchanneltypes.MsgAcknowledgement{}),
+		sdk.MsgTypeURL(&ibcclienttypes.MsgUpdateClient{}),
+	}
 }
 
 // NewSimApp returns a reference to an initialized SimApp.
@@ -233,6 +273,7 @@ func NewSimApp(
 		govtypes.StoreKey, paramstypes.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, capabilitytypes.StoreKey,
 		authzkeeper.StoreKey, nftkeeper.StoreKey, group.StoreKey, lmstypes.StoreKey,
+		ibchost.StoreKey, ibctransfertypes.StoreKey, icahosttypes.StoreKey, ibcfeetypes.StoreKey, icacontrollertypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	// NOTE: The testingkey is just mounted for testing purposes. Actual applications should
@@ -264,6 +305,9 @@ func NewSimApp(
 	app.CapabilityKeeper = capabilitykeeper.NewKeeper(appCodec, keys[capabilitytypes.StoreKey], memKeys[capabilitytypes.MemStoreKey])
 	// Applications that wish to enforce statically created ScopedKeepers should call `Seal` after creating
 	// their scoped modules in `NewApp` with `ScopeToModule`
+
+	app.ScopedIBCKeeper = app.CapabilityKeeper.ScopeToModule(ibchost.ModuleName)
+	app.ScopedIBCTransferKeeper = app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	app.CapabilityKeeper.Seal()
 
 	// add keepers
@@ -326,6 +370,32 @@ func NewSimApp(
 		Example of setting gov params:
 		govConfig.MaxMetadataLen = 10000
 	*/
+
+	app.IBCKeeper = ibckeeper.NewKeeper(
+		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), app.StakingKeeper, app.UpgradeKeeper, app.ScopedIBCKeeper,
+	)
+	app.IBCFeeKeeper = ibcfeekeeper.NewKeeper(
+		app.appCodec,
+		app.keys[ibcfeetypes.StoreKey],
+		app.GetSubspace(ibcfeetypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+	)
+	app.IBCTransferKeeper = ibctransferkeeper.NewKeeper(
+		appCodec,
+		keys[ibctransfertypes.StoreKey],
+		app.GetSubspace(ibctransfertypes.ModuleName),
+		app.IBCFeeKeeper, // added to support IBC fee middleware
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.ScopedIBCTransferKeeper,
+	)
+
 	govKeeper := govkeeper.NewKeeper(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
 		&stakingKeeper, govRouter, app.MsgServiceRouter(), govConfig,
@@ -346,12 +416,18 @@ func NewSimApp(
 	// If evidence needs to be handled for the app, set routes in router here and seal
 	app.EvidenceKeeper = *evidenceKeeper
 
+	ibcTransferModule := ibctransfer.NewIBCModule(app.IBCTransferKeeper)
+	ibcTransferStack := ibcfee.NewIBCMiddleware(ibcTransferModule, app.IBCFeeKeeper)
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
 	// we prefer to be more strict in what arguments the modules expect.
 	skipGenesisInvariants := cast.ToBool(appOpts.Get(crisis.FlagSkipGenesisInvariants))
 
+	ibcRouter := porttypes.NewRouter()
+	ibcRouter.
+		AddRoute(ibctransfertypes.ModuleName, ibcTransferStack)
+	app.IBCKeeper.SetRouter(ibcRouter)
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
 	app.mm = module.NewManager(
@@ -377,6 +453,9 @@ func NewSimApp(
 		groupmodule.NewAppModule(appCodec, app.GroupKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		nftmodule.NewAppModule(appCodec, app.NFTKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		lms.NewAppModule(appCodec, app.LmsKeeper),
+		ibc.NewAppModule(app.IBCKeeper),
+		ibctransfer.NewAppModule(app.IBCTransferKeeper),
+		ibcfee.NewAppModule(app.IBCFeeKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -390,6 +469,8 @@ func NewSimApp(
 		authtypes.ModuleName, banktypes.ModuleName, govtypes.ModuleName, crisistypes.ModuleName, genutiltypes.ModuleName,
 		authz.ModuleName, feegrant.ModuleName, nft.ModuleName, group.ModuleName,
 		paramstypes.ModuleName, vestingtypes.ModuleName, lmstypes.ModuleName,
+		ibchost.ModuleName,
+		ibctransfertypes.ModuleName, ibcfeetypes.ModuleName,
 	)
 	app.mm.SetOrderEndBlockers(
 		crisistypes.ModuleName, govtypes.ModuleName, stakingtypes.ModuleName,
@@ -398,6 +479,9 @@ func NewSimApp(
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
 		feegrant.ModuleName, nft.ModuleName, group.ModuleName,
 		paramstypes.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName, lmstypes.ModuleName,
+		ibchost.ModuleName,
+		ibctransfertypes.ModuleName,
+		ibcfeetypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -412,6 +496,9 @@ func NewSimApp(
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
 		feegrant.ModuleName, nft.ModuleName, group.ModuleName,
 		paramstypes.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName, lmstypes.ModuleName,
+		ibctransfertypes.ModuleName,
+		ibchost.ModuleName,
+		ibcfeetypes.ModuleName,
 	)
 
 	// Uncomment if you want to set a custom migration order here.
@@ -482,8 +569,7 @@ func (app *SimApp) setAnteHandler(txConfig client.TxConfig) {
 			SignModeHandler: txConfig.SignModeHandler(),
 			FeegrantKeeper:  app.FeeGrantKeeper,
 			SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
-		},
-	)
+		})
 	if err != nil {
 		panic(err)
 	}
@@ -669,6 +755,9 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(govtypes.ModuleName).WithKeyTable(govv1.ParamKeyTable())
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(lmstypes.ModuleName)
-
+	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
+	paramsKeeper.Subspace(ibchost.ModuleName)
+	paramsKeeper.Subspace(icahosttypes.SubModuleName)
+	paramsKeeper.Subspace(ibcfeetypes.ModuleName)
 	return paramsKeeper
 }
